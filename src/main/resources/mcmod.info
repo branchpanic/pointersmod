@@ -1,0 +1,16 @@
+[
+{
+  "modid": "pointersmod",
+  "name": "Pointers",
+  "description": "A mod about things that point to other things.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["notjoe_"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

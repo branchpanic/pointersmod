@@ -1,0 +1,10 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "pointersmod:receiver_redstone"
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{}]
+  }
+}
