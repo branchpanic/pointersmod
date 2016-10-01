@@ -29,6 +29,8 @@ public class ItemPointerBase extends ModItem {
         boolean success = false;
         if(playerIn.isSneaking() && hand == EnumHand.OFF_HAND) {
             success = pointerAction.setPointerTarget(stack, new BlockInWorld(pos, playerIn.dimension, facing), worldIn);
+        } else if(playerIn.isSneaking() && hand == EnumHand.MAIN_HAND) {
+            success = pointerAction.pointerActivatedSecondary(stack, worldIn, playerIn);
         } else if(hand == EnumHand.MAIN_HAND) {
             success = pointerAction.pointerActivated(stack, worldIn, playerIn);
         }

@@ -9,7 +9,7 @@ import notjoe.pointersmod.api.helpers.NbtHelper;
 
 import java.util.List;
 
-public class PointerActionTeleport implements PointerAction {
+public class PointerActionTeleport extends PointerAction {
     @Override
     public boolean setPointerTarget(ItemStack stack, BlockInWorld blockInWorld, World world) {
         NbtHelper.initNbtTagForStack(stack);
@@ -28,24 +28,5 @@ public class PointerActionTeleport implements PointerAction {
             return true;
         }
         return false;
-    }
-
-    @Override public List<String> getExtraInfo(ItemStack stack) {
-        return null;
-    }
-
-    @Override public BlockInWorld getPointerTarget(ItemStack stack) {
-        return new BlockInWorld(stack.getTagCompound());
-    }
-
-    @Override public boolean hasTarget(ItemStack stack) {
-        return NbtHelper.stackHasBlockData(stack);
-    }
-
-    @Override public boolean isTargetAccessible(ItemStack stack, World world, EntityPlayer player) {
-        BlockInWorld target = new BlockInWorld(stack.getTagCompound());
-        return world.isBlockLoaded(target.pos) &&
-            player.canPlayerEdit(target.pos, target.facing, stack) &&
-            player.capabilities.allowEdit;
     }
 }

@@ -16,7 +16,7 @@ import java.util.List;
  * Progress:
  *  TODO: Game will crash if the target is destroyed or unloaded (isTargetAccessible is not implemented)
  */
-public class PointerActionInventory implements PointerAction {
+public class PointerActionInventory extends PointerAction {
     private boolean ignoreFacing;
 
     public PointerActionInventory(boolean ignoreFacing) {
@@ -39,38 +39,12 @@ public class PointerActionInventory implements PointerAction {
             BlockInWorld blockInWorld = getPointerTarget(stack);
             IItemHandler handler = blockInWorld.getTileEntity(world).getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, ignoreFacing? null: blockInWorld.facing);
             if(handler != null) {
-                /*for(int i = 0; i < handler.getSlots(); i++) {
-                    player.addChatComponentMessage(new TextComponentString(i + " " + (handler.getStackInSlot(i) != null? handler.getStackInSlot(i).getDisplayName(): "Nothing")));
-                }*/
                 player.openGui(PointersMod.INSTANCE, 0, world, 0, 0, 0);
             }
 
             return true;
         }
         return false;
-    }
-
-    @Override public List<String> getExtraInfo(ItemStack stack) {
-        return null;
-    }
-
-    @Override public BlockInWorld getPointerTarget(ItemStack stack) {
-        if(hasTarget(stack)) {
-            return new BlockInWorld(stack.getTagCompound());
-        }
-        return null;
-    }
-
-    @Override public boolean hasTarget(ItemStack stack) {
-        NbtHelper.initNbtTagForStack(stack);
-        return NbtHelper.stackHasBlockData(stack);
-    }
-
-    @Override public boolean isTargetAccessible(ItemStack stack, World world, EntityPlayer player) {
-        BlockInWorld target = new BlockInWorld(stack.getTagCompound());
-        return world.isBlockLoaded(target.pos) &&
-            player.canPlayerEdit(target.pos, target.facing, stack) &&
-            player.capabilities.allowEdit;
     }
 
     public IItemHandler getStackHandler(ItemStack stack, World world, EntityPlayer player) {
