@@ -11,14 +11,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import notjoe.pointersmod.common.tile.TileReceiverRedstone;
 
 import java.util.Random;
 
 public class BlockReceiverRedstone extends ModBlock implements ITileEntityProvider {
-    public static final AxisAlignedBB BLOCK_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.125D, 1.0D);
+    public static final AxisAlignedBB BLOCK_AABB =
+        new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.125D, 1.0D);
+
     public BlockReceiverRedstone() {
         super("receiver_redstone", Material.CIRCUITS);
         isBlockContainer = true;
@@ -37,8 +37,8 @@ public class BlockReceiverRedstone extends ModBlock implements ITileEntityProvid
     @Override
     public int getWeakPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos,
         EnumFacing side) {
-        if(blockAccess.getTileEntity(pos) instanceof TileReceiverRedstone) {
-            return ((TileReceiverRedstone) blockAccess.getTileEntity(pos)).getIsPowered()? 15: 0;
+        if (getIsPowered(pos, blockAccess)) {
+            return ((TileReceiverRedstone) blockAccess.getTileEntity(pos)).getIsPowered() ? 15 : 0;
         }
 
         return 0;
@@ -49,6 +49,18 @@ public class BlockReceiverRedstone extends ModBlock implements ITileEntityProvid
         return BlockReceiverRedstone.BLOCK_AABB;
     }
 
+    @Override
+    public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
+        if(getIsPowered(pos, worldIn)) {
+            worldIn.spawnParticle(EnumParticleTypes.REDSTONE,
+                pos.getX() + 0.5,
+                pos.getY() + 0.9,
+                pos.getZ() + 0.5,
+                0, 0, 0
+            );
+        }
+    }
+
     @Override public boolean isBlockNormalCube(IBlockState state) {
         return false;
     }
@@ -57,15 +69,8 @@ public class BlockReceiverRedstone extends ModBlock implements ITileEntityProvid
         return false;
     }
 
-    @SideOnly(Side.CLIENT) @Override
-    public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
-        if(worldIn.isRemote) {
-            if(worldIn.getTileEntity(pos) instanceof TileReceiverRedstone && ((TileReceiverRedstone) worldIn.getTileEntity(pos)).getIsPowered()) {
-                System.out.println("Spawning particle");
-                worldIn.spawnParticle(EnumParticleTypes.REDSTONE,
-                    0.5 + 0.2 * rand.nextGaussian(), 1.0 + 0.2 * rand.nextGaussian(), 0.5 + 0.2 * rand.nextGaussian(), 0, 0, 0, new int[0]);
-            }
-        }
-        System.out.println("Random display tick");
+    private boolean getIsPowered(BlockPos pos, IBlockAccess world) {
+        return world.getTileEntity(pos) instanceof TileReceiverRedstone
+            && ((TileReceiverRedstone) world.getTileEntity(pos)).getIsPowered();
     }
 }

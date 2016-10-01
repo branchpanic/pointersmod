@@ -38,8 +38,7 @@ public class ModItem extends Item implements RegisterableModel {
         super.addInformation(stack, playerIn, tooltip, advanced);
     }
 
-    @Override @SideOnly(Side.CLIENT)
-    public void registerModel() {
+    @Override @SideOnly(Side.CLIENT) public void registerModel() {
         ModelLoader.setCustomModelResourceLocation(this, 0,
             new ModelResourceLocation(getRegistryName(), "inventory"));
     }

@@ -13,17 +13,20 @@ import java.util.List;
 abstract public class PointerAction {
     /**
      * Sets the target of this pointer.
-     * @param stack The pointer to bind.
+     *
+     * @param stack        The pointer to bind.
      * @param blockInWorld Information about the block to bind to.
-     * @param world The world the block was bound in.
+     * @param world        The world the block was bound in.
      * @return Whether or not the pointer was bound.
      */
-    abstract public boolean setPointerTarget(ItemStack stack, BlockInWorld blockInWorld, World world);
+    abstract public boolean setPointerTarget(ItemStack stack, BlockInWorld blockInWorld,
+        World world);
 
     /**
      * Called when this pointer is activated by right clicking.
-     * @param stack The pointer to activate.
-     * @param world The world of the player.
+     *
+     * @param stack  The pointer to activate.
+     * @param world  The world of the player.
      * @param player The player who activated the pointer.
      * @return Whether or not the action was successful.
      */
@@ -31,8 +34,9 @@ abstract public class PointerAction {
 
     /**
      * Called when this pointer is activated by crouching and right clicking.
-     * @param stack The pointer to activate.
-     * @param world The world of the player.
+     *
+     * @param stack  The pointer to activate.
+     * @param world  The world of the player.
      * @param player The player who activated the pointer.
      * @return Whether or not the action was successful.
      */
@@ -43,6 +47,7 @@ abstract public class PointerAction {
     /**
      * Get information about this pointer for use in the HUD overlay (if enabled) and item tooltip.
      * Target position and name do not need to be included, as they are added separately.
+     *
      * @param stack The pointer to get information about.
      * @return A list of Strings containing information about this pointer.
      */
@@ -53,6 +58,7 @@ abstract public class PointerAction {
     /**
      * Gets the target BlockInWorld of this pointer.
      * *May cause a NullPointerException if hasTarget has not been checked*
+     *
      * @param stack The pointer stack.
      * @return A BlockInWorld containing information about the pointer's target.
      */
@@ -62,6 +68,7 @@ abstract public class PointerAction {
 
     /**
      * Gets whether or not the pointer currently has a target.
+     *
      * @param stack The pointer stack.
      * @return Whether or not the pointer is bound to a target.
      */
@@ -72,8 +79,9 @@ abstract public class PointerAction {
 
     /**
      * Gets whether or not the target of the pointer is accessible (i.e. is loaded, player can modify block)
-     * @param stack The pointer stack.
-     * @param world The world of the player.
+     *
+     * @param stack  The pointer stack.
+     * @param world  The world of the player.
      * @param player The player who activated the pointer.
      * @return Whether or not the pointer's target is accessible.
      */

@@ -1,6 +1,5 @@
 package notjoe.pointersmod;
 
-import com.sun.jna.Pointer;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.Mod;
@@ -45,8 +44,9 @@ public class PointersMod {
 
     /**
      * Called during Forge's pre-init event.
-     * @see ProxyCommon
+     *
      * @param event Event data.
+     * @see ProxyCommon
      */
     @Mod.EventHandler public static void onPreInit(FMLPreInitializationEvent event) {
         proxy.preInit(event);
@@ -54,8 +54,9 @@ public class PointersMod {
 
     /**
      * Called during Forge's init event.
-     * @see ProxyCommon
+     *
      * @param event Event data.
+     * @see ProxyCommon
      */
     @Mod.EventHandler public static void onInit(FMLInitializationEvent event) {
         proxy.init(event);
@@ -63,8 +64,9 @@ public class PointersMod {
 
     /**
      * Called during Forge's post-init event.
-     * @see ProxyCommon
+     *
      * @param event Event data.
+     * @see ProxyCommon
      */
     @Mod.EventHandler public static void onPostInit(FMLPostInitializationEvent event) {
         proxy.postInit(event);

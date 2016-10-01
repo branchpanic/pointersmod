@@ -9,23 +9,23 @@ import notjoe.pointersmod.api.helpers.NbtHelper;
 import notjoe.pointersmod.common.block.ModBlocks;
 import notjoe.pointersmod.common.tile.TileReceiverRedstone;
 
-import java.util.List;
-
 public class PointerActionRedstone extends PointerAction {
     @Override
     public boolean setPointerTarget(ItemStack stack, BlockInWorld blockInWorld, World world) {
         NbtHelper.initNbtTagForStack(stack);
-        if(world.getBlockState(blockInWorld.pos).getBlock() == ModBlocks.receiver_redstone) {
+        if (world.getBlockState(blockInWorld.pos).getBlock() == ModBlocks.receiver_redstone) {
             blockInWorld.serializeNbt(stack.getTagCompound());
         }
         return false;
     }
 
     @Override public boolean pointerActivated(ItemStack stack, World world, EntityPlayer player) {
-        if(hasTarget(stack) && isTargetAccessible(stack, world, player)) {
+        if (hasTarget(stack) && isTargetAccessible(stack, world, player)) {
             BlockInWorld blockInWorld = new BlockInWorld(stack.getTagCompound());
-            if(world.getTileEntity(blockInWorld.pos) != null && world.getTileEntity(blockInWorld.pos) instanceof TileReceiverRedstone) {
-                TileReceiverRedstone receiver = (TileReceiverRedstone) world.getTileEntity(blockInWorld.pos);
+            if (world.getTileEntity(blockInWorld.pos) != null && world
+                .getTileEntity(blockInWorld.pos) instanceof TileReceiverRedstone) {
+                TileReceiverRedstone receiver =
+                    (TileReceiverRedstone) world.getTileEntity(blockInWorld.pos);
                 receiver.togglePower();
                 world.notifyNeighborsOfStateChange(blockInWorld.pos, ModBlocks.receiver_redstone);
                 return true;

@@ -2,6 +2,7 @@ package notjoe.pointersmod.common.tile;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ITickable;
 import notjoe.pointersmod.common.block.ModBlocks;
 
 public class TileReceiverRedstone extends TileEntity {
@@ -14,8 +15,8 @@ public class TileReceiverRedstone extends TileEntity {
     }
 
     @Override public void deserializeNBT(NBTTagCompound nbt) {
-        super.deserializeNBT(nbt);
         isPowered = nbt.getBoolean("is_powered");
+        super.deserializeNBT(nbt);
     }
 
     public boolean getIsPowered() {
@@ -24,6 +25,11 @@ public class TileReceiverRedstone extends TileEntity {
 
     public void togglePower() {
         isPowered = !isPowered;
+        getWorld().notifyBlockOfStateChange(getPos(), ModBlocks.receiver_redstone);
+    }
+
+    public void setPowered(boolean isPowered) {
+        this.isPowered = isPowered;
         getWorld().notifyBlockOfStateChange(getPos(), ModBlocks.receiver_redstone);
     }
 }

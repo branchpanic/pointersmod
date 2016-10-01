@@ -39,11 +39,11 @@ public class ContainerInvPointer extends Container {
         System.out.println(handler.getSlots());
         int slots = handler.getSlots();
         int slot = 0;
-        int rows = slots/9 + (slots % 9 > 0? 1: 0);
+        int rows = slots / 9 + (slots % 9 > 0 ? 1 : 0);
         int cols = 9;
-        for(int row = 0; row < rows; ++row) {
-            for(int col = 0; col < cols; ++col) {
-                if(slot < slots) {
+        for (int row = 0; row < rows; ++row) {
+            for (int col = 0; col < cols; ++col) {
+                if (slot < slots) {
                     int x = 9 + col * 18;
                     int y = row * 18;
                     addSlotToContainer(new SlotItemHandler(handler, slot, x, y));
@@ -62,7 +62,8 @@ public class ContainerInvPointer extends Container {
             itemstack = itemstack1.copy();
 
             if (index < handler.getSlots()) {
-                if (!this.mergeItemStack(itemstack1, handler.getSlots(), this.inventorySlots.size(), true)) {
+                if (!this.mergeItemStack(itemstack1, handler.getSlots(), this.inventorySlots.size(),
+                    true)) {
                     return null;
                 }
             } else if (!this.mergeItemStack(itemstack1, 0, handler.getSlots(), false)) {

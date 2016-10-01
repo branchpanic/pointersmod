@@ -23,8 +23,7 @@ public class BlockInWorld {
 
     public BlockInWorld(NBTTagCompound fromCompound) {
         this.pos = new BlockPos(fromCompound.getInteger("block_pos_x"),
-            fromCompound.getInteger("block_pos_y"),
-            fromCompound.getInteger("block_pos_z"));
+            fromCompound.getInteger("block_pos_y"), fromCompound.getInteger("block_pos_z"));
         this.dimension = fromCompound.getInteger("dimension");
         this.facing = EnumFacing.byName(fromCompound.getString("facing"));
     }

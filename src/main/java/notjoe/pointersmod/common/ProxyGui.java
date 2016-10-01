@@ -15,10 +15,13 @@ public class ProxyGui implements IGuiHandler {
     public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y,
         int z) {
         ItemStack pointerStack = player.getHeldItem(EnumHand.MAIN_HAND);
-        if(ItemStack.areItemsEqual(pointerStack, new ItemStack(ModItems.pointer_inv))) {
-            switch(ID) {
+        if (ItemStack.areItemsEqual(pointerStack, new ItemStack(ModItems.pointer_inv))) {
+            switch (ID) {
                 case 0:
-                    return new GuiInvPointer(new ContainerInvPointer(((ItemPointerBase) ModItems.pointer_inv).getStackHandlerFromPointer(pointerStack, world, player), player.inventory));
+                    return new GuiInvPointer(new ContainerInvPointer(
+                        ((ItemPointerBase) ModItems.pointer_inv)
+                            .getStackHandlerFromPointer(pointerStack, world, player),
+                        player.inventory));
             }
         }
         return null;
@@ -28,10 +31,11 @@ public class ProxyGui implements IGuiHandler {
     public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y,
         int z) {
         ItemStack pointerStack = player.getHeldItem(EnumHand.MAIN_HAND);
-        if(ItemStack.areItemsEqual(pointerStack, new ItemStack(ModItems.pointer_inv))) {
-            switch(ID) {
+        if (ItemStack.areItemsEqual(pointerStack, new ItemStack(ModItems.pointer_inv))) {
+            switch (ID) {
                 case 0:
-                    return new ContainerInvPointer(((ItemPointerBase) ModItems.pointer_inv).getStackHandlerFromPointer(pointerStack, world, player), player.inventory);
+                    return new ContainerInvPointer(((ItemPointerBase) ModItems.pointer_inv)
+                        .getStackHandlerFromPointer(pointerStack, world, player), player.inventory);
             }
         }
 

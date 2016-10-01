@@ -10,11 +10,9 @@ import notjoe.pointersmod.api.BlockInWorld;
 import notjoe.pointersmod.api.PointerAction;
 import notjoe.pointersmod.api.helpers.NbtHelper;
 
-import java.util.List;
-
 /**
  * Progress:
- *  TODO: Game will crash if the target is destroyed or unloaded (isTargetAccessible is not implemented)
+ * TODO: Game will crash if the target is destroyed or unloaded (isTargetAccessible is not implemented)
  */
 public class PointerActionInventory extends PointerAction {
     private boolean ignoreFacing;
@@ -23,10 +21,13 @@ public class PointerActionInventory extends PointerAction {
         this.ignoreFacing = ignoreFacing;
     }
 
-    @Override public boolean setPointerTarget(ItemStack stack, BlockInWorld blockInWorld, World world) {
+    @Override
+    public boolean setPointerTarget(ItemStack stack, BlockInWorld blockInWorld, World world) {
         NbtHelper.initNbtTagForStack(stack);
-        if(blockInWorld.isTileEntity(world)) {
-            if(blockInWorld.getTileEntity(world).hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, ignoreFacing? null: blockInWorld.facing)) {
+        if (blockInWorld.isTileEntity(world)) {
+            if (blockInWorld.getTileEntity(world)
+                .hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY,
+                    ignoreFacing ? null : blockInWorld.facing)) {
                 blockInWorld.serializeNbt(stack.getTagCompound());
                 return true;
             }
@@ -35,10 +36,12 @@ public class PointerActionInventory extends PointerAction {
     }
 
     @Override public boolean pointerActivated(ItemStack stack, World world, EntityPlayer player) {
-        if(hasTarget(stack) && isTargetAccessible(stack, world, player) && !world.isRemote) {
+        if (hasTarget(stack) && isTargetAccessible(stack, world, player) && !world.isRemote) {
             BlockInWorld blockInWorld = getPointerTarget(stack);
-            IItemHandler handler = blockInWorld.getTileEntity(world).getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, ignoreFacing? null: blockInWorld.facing);
-            if(handler != null) {
+            IItemHandler handler = blockInWorld.getTileEntity(world)
+                .getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY,
+                    ignoreFacing ? null : blockInWorld.facing);
+            if (handler != null) {
                 player.openGui(PointersMod.INSTANCE, 0, world, 0, 0, 0);
             }
 
@@ -48,10 +51,11 @@ public class PointerActionInventory extends PointerAction {
     }
 
     public IItemHandler getStackHandler(ItemStack stack, World world, EntityPlayer player) {
-        if(hasTarget(stack) && isTargetAccessible(stack, world, player)) {
+        if (hasTarget(stack) && isTargetAccessible(stack, world, player)) {
             BlockInWorld blockInWorld = getPointerTarget(stack);
             IItemHandler handler = blockInWorld.getTileEntity(world)
-                .getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, ignoreFacing? null: blockInWorld.facing);
+                .getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY,
+                    ignoreFacing ? null : blockInWorld.facing);
             return handler;
         }
 
