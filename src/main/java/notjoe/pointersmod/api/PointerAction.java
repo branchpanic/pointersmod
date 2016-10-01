@@ -91,4 +91,20 @@ abstract public class PointerAction {
             player.canPlayerEdit(target.pos, target.facing, stack) &&
             player.capabilities.allowEdit;
     }
+
+    /**
+     * Gets the amount of energy that this pointer can hold.
+     * @return The amount of energy that this pointer can hold.
+     */
+    public long getTeslaCapacity() {
+        return 100000;
+    }
+
+    /**
+     * Gets the amount of energy taken per use. The pointer cannot be used if it contains less than this amount of energy.
+     * @return The amount of energy taken per use.
+     */
+    public long getTeslaPerUse() {
+        return 1000;
+    }
 }

@@ -34,4 +34,12 @@ public class PointerActionRedstone extends PointerAction {
         }
         return false;
     }
+
+    @Override public long getTeslaCapacity() {
+        return 100000;
+    }
+
+    @Override public long getTeslaPerUse() {
+        return 80;
+    }
 }

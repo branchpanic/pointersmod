@@ -75,4 +75,12 @@ public class PointerActionInventory extends PointerAction {
 
         return null;
     }
+
+    @Override public long getTeslaCapacity() {
+        return 100000;
+    }
+
+    @Override public long getTeslaPerUse() {
+        return 1000;
+    }
 }

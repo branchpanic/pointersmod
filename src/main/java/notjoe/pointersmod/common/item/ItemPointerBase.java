@@ -1,19 +1,32 @@
 package notjoe.pointersmod.common.item;
 
+import net.darkhax.tesla.api.ITeslaConsumer;
+import net.darkhax.tesla.api.ITeslaHolder;
+import net.darkhax.tesla.api.ITeslaProducer;
+import net.darkhax.tesla.api.implementation.BaseTeslaContainer;
+import net.darkhax.tesla.api.implementation.BaseTeslaContainerProvider;
+import net.darkhax.tesla.capability.TeslaCapabilities;
+import net.darkhax.tesla.lib.TeslaUtils;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.items.IItemHandler;
 import notjoe.pointersmod.api.BlockInWorld;
 import notjoe.pointersmod.api.PointerAction;
 import notjoe.pointersmod.api.actions.PointerActionInventory;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class ItemPointerBase extends ModItem {
@@ -23,38 +36,69 @@ public class ItemPointerBase extends ModItem {
         super(unlocalizedName);
         this.pointerAction = pointerAction;
         setMaxStackSize(1);
+        setMaxDamage((int)pointerAction.getTeslaCapacity()); // TODO: What if the pointer has a capacity greater than Integer.MAX_VALUE?
+    }
+
+    @Override public boolean showDurabilityBar(ItemStack stack) {
+        return true;
+    }
+
+    @Override public int getDamage(ItemStack stack) {
+        if(stack.hasCapability(TeslaCapabilities.CAPABILITY_HOLDER, null)) {
+            ITeslaHolder teslaHolder = stack.getCapability(TeslaCapabilities.CAPABILITY_HOLDER, null);
+            return getMaxDamage() - (int)teslaHolder.getStoredPower();
+        }
+
+        return getMaxDamage();
+    }
+
+    @Override public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
+        return new BaseTeslaContainerProvider(new BaseTeslaContainer(pointerAction.getTeslaCapacity(), 10000, 10000));
     }
 
     @Override
     public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn,
         BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         boolean success = false;
-        if (playerIn.isSneaking() && hand == EnumHand.OFF_HAND) {
-            success = pointerAction
-                .setPointerTarget(stack, new BlockInWorld(pos, playerIn.dimension, facing),
-                    worldIn);
-        } else if (playerIn.isSneaking() && hand == EnumHand.MAIN_HAND) {
-            success = pointerAction.pointerActivatedSecondary(stack, worldIn, playerIn);
-        } else if (hand == EnumHand.MAIN_HAND) {
-            success = pointerAction.pointerActivated(stack, worldIn, playerIn);
+        if(stack.hasCapability(TeslaCapabilities.CAPABILITY_PRODUCER, null)) {
+            ITeslaProducer producer = stack.getCapability(TeslaCapabilities.CAPABILITY_PRODUCER, null);
+            ITeslaHolder holder = stack.getCapability(TeslaCapabilities.CAPABILITY_HOLDER, null);
+            System.out.println(holder.getStoredPower() + " / " + holder.getCapacity());
+            if(producer.takePower(pointerAction.getTeslaPerUse(), true) >= pointerAction.getTeslaPerUse()) {
+                producer.takePower(pointerAction.getTeslaPerUse(), false);
+                if (playerIn.isSneaking() && hand == EnumHand.OFF_HAND) {
+                    success = pointerAction
+                        .setPointerTarget(stack, new BlockInWorld(pos, playerIn.dimension, facing),
+                            worldIn);
+                } else if (playerIn.isSneaking() && hand == EnumHand.MAIN_HAND) {
+                    success = pointerAction.pointerActivatedSecondary(stack, worldIn, playerIn);
+                } else if (hand == EnumHand.MAIN_HAND) {
+                    success = pointerAction.pointerActivated(stack, worldIn, playerIn);
+                }
+            }
         }
-
         return success ? EnumActionResult.SUCCESS : EnumActionResult.FAIL;
     }
 
-    @Override public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn,
+    @Override public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World worldIn,
         EntityPlayer playerIn, EnumHand hand) {
         boolean success = false;
-        if (playerIn.isSneaking() && hand == EnumHand.MAIN_HAND) {
-            success = pointerAction.pointerActivatedSecondary(itemStackIn, worldIn, playerIn);
-        } else if (hand == EnumHand.MAIN_HAND) {
-            success = pointerAction.pointerActivated(itemStackIn, worldIn, playerIn);
+        if(stack.hasCapability(TeslaCapabilities.CAPABILITY_PRODUCER, null)) {
+            ITeslaProducer producer = stack.getCapability(TeslaCapabilities.CAPABILITY_PRODUCER, null);
+            if(producer.takePower(pointerAction.getTeslaPerUse(), true) >= pointerAction.getTeslaPerUse()) {
+                producer.takePower(pointerAction.getTeslaPerUse(), false);
+                if (playerIn.isSneaking() && hand == EnumHand.MAIN_HAND) {
+                    success = pointerAction.pointerActivatedSecondary(stack, worldIn, playerIn);
+                } else if (hand == EnumHand.MAIN_HAND) {
+                    success = pointerAction.pointerActivated(stack, worldIn, playerIn);
+                }
+            }
         }
 
         if (success) {
-            return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+            return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
         } else {
-            return ActionResult.newResult(EnumActionResult.FAIL, itemStackIn);
+            return ActionResult.newResult(EnumActionResult.FAIL, stack);
         }
     }
 
@@ -72,6 +116,12 @@ public class ItemPointerBase extends ModItem {
                 tooltip.addAll(pointerAction.getExtraInfo(stack));
         } else {
             tooltip.add(I18n.format("pointers.notarget"));
+        }
+
+        if(stack.hasCapability(TeslaCapabilities.CAPABILITY_HOLDER, null)) {
+            ITeslaHolder holder = stack.getCapability(TeslaCapabilities.CAPABILITY_HOLDER, null);
+            tooltip.add(I18n.format("pointers.power", holder.getStoredPower(), holder.getCapacity()));
+            tooltip.add(I18n.format("pointers.powerperuse", pointerAction.getTeslaPerUse()));
         }
         super.addInformation(stack, playerIn, tooltip, advanced);
     }
