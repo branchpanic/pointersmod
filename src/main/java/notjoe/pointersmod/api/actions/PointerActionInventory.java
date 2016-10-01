@@ -1,5 +1,7 @@
 package notjoe.pointersmod.api.actions;
 
+import com.mojang.realmsclient.gui.ChatFormatting;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -9,6 +11,9 @@ import notjoe.pointersmod.PointersMod;
 import notjoe.pointersmod.api.BlockInWorld;
 import notjoe.pointersmod.api.PointerAction;
 import notjoe.pointersmod.api.helpers.NbtHelper;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Progress:
@@ -29,6 +34,8 @@ public class PointerActionInventory extends PointerAction {
                 .hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY,
                     ignoreFacing ? null : blockInWorld.facing)) {
                 blockInWorld.serializeNbt(stack.getTagCompound());
+                String localizedTargetName = world.getBlockState(blockInWorld.pos).getBlock().getLocalizedName();
+                stack.getTagCompound().setString("target_name", localizedTargetName);
                 return true;
             }
         }
@@ -48,6 +55,13 @@ public class PointerActionInventory extends PointerAction {
             return true;
         }
         return false;
+    }
+
+    @Override public List<String> getExtraInfo(ItemStack stack) {
+        NbtHelper.initNbtTagForStack(stack);
+        if(stack.getTagCompound().hasKey("target_name"))
+            return Collections.singletonList(I18n.format("pointers.targetname", stack.getTagCompound().getString("target_name")));
+        return null;
     }
 
     public IItemHandler getStackHandler(ItemStack stack, World world, EntityPlayer player) {

@@ -1,6 +1,7 @@
 package notjoe.pointersmod.client.gui;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.inventory.Slot;
 import net.minecraft.util.ResourceLocation;
 import notjoe.pointersmod.PointersMod;
@@ -22,13 +23,12 @@ public class GuiInvPointer extends GuiContainer {
 
         this.container = container;
 
-        xSize = WIDTH;
-        ySize = HEIGHT;
+        xSize = container.width;
+        ySize = container.height;
     }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-        // Draw slots
         mc.getTextureManager().bindTexture(slot);
         for (Slot s : container.inventorySlots) {
             drawTexturedModalRect(guiLeft + s.xDisplayPosition - 1, guiTop + s.yDisplayPosition - 1,

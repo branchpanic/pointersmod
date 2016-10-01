@@ -2,13 +2,15 @@ item.pointersmod.pointer_inv.name=Inventory Pointer
 item.pointersmod.pointer_world.name=Mechanical Pointer
 item.pointersmod.pointer_redstone.name=Redstone Pointer
 item.pointersmod.pointer_teleport.name=Positional Pointer
+item.pointersmod.pointer_inv.name.fmt=Inventory Pointer (%s)
 
 tile.pointersmod.receiver_redstone.name=Redstone Receiver
 
-itemgroup.pointersmod=Pointers
+itemGroup.pointersmod=Pointers
 
 pointers.blockpos=Bound to %d, %d, %d.
 pointers.facing=Bound on face: %s.
 pointers.dimension=Bound to dimension %d.
 pointers.notarget=No target.
+pointers.targetname=Target block: %s.
 pointers.availableslots=%d slots available on face %s.

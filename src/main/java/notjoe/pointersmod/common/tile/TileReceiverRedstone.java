@@ -12,6 +12,14 @@ import javax.annotation.Nullable;
 public class TileReceiverRedstone extends TileEntity {
     private boolean isPowered;
 
+    @Override public void onLoad() {
+        readFromNBT(getTileData());
+    }
+
+    @Override public void onChunkUnload() {
+        writeToNBT(getTileData());
+    }
+
     @Override public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         compound.setBoolean("is_powered", getIsPowered());
         return compound;
