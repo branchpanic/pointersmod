@@ -2,6 +2,7 @@ package notjoe.pointersmod;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -11,6 +12,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import notjoe.pointersmod.common.ProxyCommon;
 import notjoe.pointersmod.common.item.ModItems;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Main mod class.
@@ -34,6 +36,12 @@ public class PointersMod {
         serverSide = "notjoe.pointersmod.common.ProxyCommon") public static ProxyCommon proxy;
 
     /**
+     * Logger & Config
+     */
+    public static Logger logger;
+    public static Configuration config;
+
+    /**
      * Creative Tab
      */
     public static CreativeTabs tabPointers = new CreativeTabs(PointersMod.MODID) {
@@ -49,6 +57,7 @@ public class PointersMod {
      * @see ProxyCommon
      */
     @Mod.EventHandler public static void onPreInit(FMLPreInitializationEvent event) {
+        logger = event.getModLog();
         proxy.preInit(event);
     }
 

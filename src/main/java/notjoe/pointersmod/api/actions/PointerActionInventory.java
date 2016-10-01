@@ -1,6 +1,5 @@
 package notjoe.pointersmod.api.actions;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -11,6 +10,7 @@ import notjoe.pointersmod.PointersMod;
 import notjoe.pointersmod.api.BlockInWorld;
 import notjoe.pointersmod.api.PointerAction;
 import notjoe.pointersmod.api.helpers.NbtHelper;
+import notjoe.pointersmod.common.Config;
 
 import java.util.Collections;
 import java.util.List;
@@ -34,7 +34,8 @@ public class PointerActionInventory extends PointerAction {
                 .hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY,
                     ignoreFacing ? null : blockInWorld.facing)) {
                 blockInWorld.serializeNbt(stack.getTagCompound());
-                String localizedTargetName = world.getBlockState(blockInWorld.pos).getBlock().getLocalizedName();
+                String localizedTargetName =
+                    world.getBlockState(blockInWorld.pos).getBlock().getLocalizedName();
                 stack.getTagCompound().setString("target_name", localizedTargetName);
                 return true;
             }
@@ -59,8 +60,9 @@ public class PointerActionInventory extends PointerAction {
 
     @Override public List<String> getExtraInfo(ItemStack stack) {
         NbtHelper.initNbtTagForStack(stack);
-        if(stack.getTagCompound().hasKey("target_name"))
-            return Collections.singletonList(I18n.format("pointers.targetname", stack.getTagCompound().getString("target_name")));
+        if (stack.getTagCompound().hasKey("target_name"))
+            return Collections.singletonList(I18n.format("pointers.targetname",
+                stack.getTagCompound().getString("target_name")));
         return null;
     }
 
@@ -76,11 +78,7 @@ public class PointerActionInventory extends PointerAction {
         return null;
     }
 
-    @Override public long getTeslaCapacity() {
-        return 100000;
-    }
-
     @Override public long getTeslaPerUse() {
-        return 1000;
+        return Config.inventoryTpu;
     }
 }

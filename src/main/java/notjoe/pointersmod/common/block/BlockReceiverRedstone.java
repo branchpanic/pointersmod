@@ -10,7 +10,6 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import notjoe.pointersmod.common.tile.TileReceiverRedstone;
 
 import java.util.Random;
@@ -35,7 +34,7 @@ public class BlockReceiverRedstone extends ModBlock implements ITileEntityProvid
     @Override
     public int getWeakPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos,
         EnumFacing side) {
-        return getIsPowered(pos, blockAccess)? 15: 0;
+        return getIsPowered(pos, blockAccess) ? 15 : 0;
     }
 
     @Override
@@ -45,13 +44,9 @@ public class BlockReceiverRedstone extends ModBlock implements ITileEntityProvid
 
     @Override
     public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
-        if(getIsPowered(pos, worldIn)) {
-            worldIn.spawnParticle(EnumParticleTypes.REDSTONE,
-                pos.getX() + 0.5,
-                pos.getY() + 0.9,
-                pos.getZ() + 0.5,
-                0, 0, 0
-            );
+        if (getIsPowered(pos, worldIn)) {
+            worldIn.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + 0.5, pos.getY() + 0.9,
+                pos.getZ() + 0.5, 0, 0, 0);
         }
     }
 

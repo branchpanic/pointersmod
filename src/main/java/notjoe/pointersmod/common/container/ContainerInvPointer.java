@@ -1,6 +1,5 @@
 package notjoe.pointersmod.common.container;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
@@ -12,9 +11,9 @@ import net.minecraftforge.items.SlotItemHandler;
 import javax.annotation.Nullable;
 
 public class ContainerInvPointer extends Container {
-    private IItemHandler handler;
     public int width;
     public int height;
+    private IItemHandler handler;
 
     public ContainerInvPointer(IItemHandler itemHandler, IInventory playerInventory) {
         this.handler = itemHandler;
@@ -40,26 +39,26 @@ public class ContainerInvPointer extends Container {
 
         int slot = 0;
 
-        for(int row = 0; row < handlerRows; ++row) {
-            for(int col = 0; col < columns; ++col) {
+        for (int row = 0; row < handlerRows; ++row) {
+            for (int col = 0; col < columns; ++col) {
                 int x = spacing + col * slotDimension;
                 int y = row * slotDimension;
-                if(slot < handler.getSlots())
+                if (slot < handler.getSlots())
                     this.addSlotToContainer(new SlotItemHandler(handler, slot, x, y));
                 slot++;
             }
         }
 
-        for(int row = 0; row < playerRows; ++row) {
-            for(int col = 0; col < columns; ++col) {
+        for (int row = 0; row < playerRows; ++row) {
+            for (int col = 0; col < columns; ++col) {
                 int x = spacing + col * slotDimension;
                 int y = row * slotDimension + handlerHeight;
                 this.addSlotToContainer(new Slot(playerInventory, col + row * 9 + 9, x, y));
             }
         }
 
-        for(int row = 0; row < hotbarRows; ++row) {
-            for(int col = 0; col < columns; ++col) {
+        for (int row = 0; row < hotbarRows; ++row) {
+            for (int col = 0; col < columns; ++col) {
                 int x = spacing + col * slotDimension;
                 int y = row * slotDimension + inventoryHeight;
                 this.addSlotToContainer(new Slot(playerInventory, col, x, y));

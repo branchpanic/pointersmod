@@ -8,6 +8,7 @@ import net.minecraft.world.World;
 import notjoe.pointersmod.api.BlockInWorld;
 import notjoe.pointersmod.api.PointerAction;
 import notjoe.pointersmod.api.helpers.NbtHelper;
+import notjoe.pointersmod.common.Config;
 
 public class PointerActionWorld extends PointerAction {
     @Override
@@ -29,11 +30,7 @@ public class PointerActionWorld extends PointerAction {
         return false;
     }
 
-    @Override public long getTeslaCapacity() {
-        return 100000;
-    }
-
     @Override public long getTeslaPerUse() {
-        return 100;
+        return Config.worldTpu;
     }
 }

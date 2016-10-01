@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import notjoe.pointersmod.api.helpers.NbtHelper;
+import notjoe.pointersmod.common.Config;
 
 import java.util.List;
 
@@ -89,19 +90,23 @@ abstract public class PointerAction {
         BlockInWorld target = getPointerTarget(stack);
         return world.isBlockLoaded(target.pos) &&
             player.canPlayerEdit(target.pos, target.facing, stack) &&
-            player.capabilities.allowEdit;
+            player.capabilities.allowEdit &&
+            (Config.pointerOperatingRange <= 0
+                || Math.sqrt(player.getDistanceSq(target.pos)) <= Config.pointerOperatingRange);
     }
 
     /**
      * Gets the amount of energy that this pointer can hold.
+     *
      * @return The amount of energy that this pointer can hold.
      */
     public long getTeslaCapacity() {
-        return 100000;
+        return Config.pointerCapacity;
     }
 
     /**
      * Gets the amount of energy taken per use. The pointer cannot be used if it contains less than this amount of energy.
+     *
      * @return The amount of energy taken per use.
      */
     public long getTeslaPerUse() {

@@ -1,24 +1,11 @@
 package notjoe.pointersmod.common.tile;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ITickable;
 import notjoe.pointersmod.common.block.ModBlocks;
-
-import javax.annotation.Nullable;
 
 public class TileReceiverRedstone extends TileEntity {
     private boolean isPowered;
-
-    @Override public void onLoad() {
-        readFromNBT(getTileData());
-    }
-
-    @Override public void onChunkUnload() {
-        writeToNBT(getTileData());
-    }
 
     @Override public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         compound.setBoolean("is_powered", getIsPowered());
@@ -35,14 +22,11 @@ public class TileReceiverRedstone extends TileEntity {
     }
 
     public boolean getIsPowered() {
-        worldObj.notifyBlockOfStateChange(pos, ModBlocks.receiver_redstone);
-        markDirty();
         return isPowered;
     }
 
     public void setPowered(boolean powered) {
         isPowered = powered;
         worldObj.notifyBlockOfStateChange(pos, ModBlocks.receiver_redstone);
-        markDirty();
     }
 }
