@@ -22,6 +22,7 @@ public class ItemPointerBase extends ModItem {
     public ItemPointerBase(String unlocalizedName, PointerAction pointerAction) {
         super(unlocalizedName);
         this.pointerAction = pointerAction;
+        setMaxStackSize(1);
     }
 
     @Override
@@ -44,7 +45,9 @@ public class ItemPointerBase extends ModItem {
     @Override public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn,
         EntityPlayer playerIn, EnumHand hand) {
         boolean success = false;
-        if (hand == EnumHand.MAIN_HAND) {
+        if (playerIn.isSneaking() && hand == EnumHand.MAIN_HAND) {
+            success = pointerAction.pointerActivatedSecondary(itemStackIn, worldIn, playerIn);
+        } else if (hand == EnumHand.MAIN_HAND) {
             success = pointerAction.pointerActivated(itemStackIn, worldIn, playerIn);
         }
 

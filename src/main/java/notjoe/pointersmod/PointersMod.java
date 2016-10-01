@@ -28,7 +28,7 @@ public class PointersMod {
      * Networking & Proxy values
      */
     public static final SimpleNetworkWrapper PACKET_HANDLER =
-        NetworkRegistry.INSTANCE.newSimpleChannel("raccess");
+        NetworkRegistry.INSTANCE.newSimpleChannel("pointmod");
     @Mod.Instance(value = PointersMod.MODID) public static PointersMod INSTANCE;
     @SidedProxy(clientSide = "notjoe.pointersmod.client.ProxyClient",
         serverSide = "notjoe.pointersmod.common.ProxyCommon") public static ProxyCommon proxy;

@@ -22,8 +22,6 @@ public class BlockReceiverRedstone extends ModBlock implements ITileEntityProvid
     public BlockReceiverRedstone() {
         super("receiver_redstone", Material.CIRCUITS);
         isBlockContainer = true;
-
-        GameRegistry.registerTileEntity(TileReceiverRedstone.class, "te_receiver_redstone");
     }
 
     @Override public TileEntity createNewTileEntity(World worldIn, int meta) {
@@ -37,11 +35,7 @@ public class BlockReceiverRedstone extends ModBlock implements ITileEntityProvid
     @Override
     public int getWeakPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos,
         EnumFacing side) {
-        if (getIsPowered(pos, blockAccess)) {
-            return ((TileReceiverRedstone) blockAccess.getTileEntity(pos)).getIsPowered() ? 15 : 0;
-        }
-
-        return 0;
+        return getIsPowered(pos, blockAccess)? 15: 0;
     }
 
     @Override

@@ -15,6 +15,7 @@ public class PointerActionRedstone extends PointerAction {
         NbtHelper.initNbtTagForStack(stack);
         if (world.getBlockState(blockInWorld.pos).getBlock() == ModBlocks.receiver_redstone) {
             blockInWorld.serializeNbt(stack.getTagCompound());
+            return true;
         }
         return false;
     }
@@ -26,7 +27,7 @@ public class PointerActionRedstone extends PointerAction {
                 .getTileEntity(blockInWorld.pos) instanceof TileReceiverRedstone) {
                 TileReceiverRedstone receiver =
                     (TileReceiverRedstone) world.getTileEntity(blockInWorld.pos);
-                receiver.togglePower();
+                receiver.togglePowered();
                 world.notifyNeighborsOfStateChange(blockInWorld.pos, ModBlocks.receiver_redstone);
                 return true;
             }
