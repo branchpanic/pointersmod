@@ -2,29 +2,32 @@ package notjoe.pointersmod.common.block;
 
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import notjoe.pointersmod.common.tile.TileReceiverRedstone;
 
 import java.util.Random;
 
-public class BlockReceiverRedstone extends ModBlock implements ITileEntityProvider {
+public class BlockReceiverRedstone extends ModBlock {
     public static final AxisAlignedBB BLOCK_AABB =
         new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.125D, 1.0D);
+    public static final PropertyBool POWERED = PropertyBool.create("powered");
 
     public BlockReceiverRedstone() {
         super("receiver_redstone", Material.CIRCUITS);
-        isBlockContainer = true;
-    }
-
-    @Override public TileEntity createNewTileEntity(World worldIn, int meta) {
-        return new TileReceiverRedstone();
+        setDefaultState(blockState.getBaseState().withProperty(BlockReceiverRedstone.POWERED, false));
     }
 
     @Override public boolean canProvidePower(IBlockState state) {
@@ -34,7 +37,19 @@ public class BlockReceiverRedstone extends ModBlock implements ITileEntityProvid
     @Override
     public int getWeakPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos,
         EnumFacing side) {
-        return getIsPowered(pos, blockAccess) ? 15 : 0;
+        return blockState.getValue(BlockReceiverRedstone.POWERED)? 15: 0;
+    }
+
+    @Override protected BlockStateContainer createBlockState() {
+        return new BlockStateContainer(this, BlockReceiverRedstone.POWERED);
+    }
+
+    @Override public IBlockState getStateFromMeta(int meta) {
+        return getDefaultState().withProperty(BlockReceiverRedstone.POWERED, meta != 0);
+    }
+
+    @Override public int getMetaFromState(IBlockState state) {
+        return state.getValue(BlockReceiverRedstone.POWERED)? 1: 0;
     }
 
     @Override
@@ -44,7 +59,7 @@ public class BlockReceiverRedstone extends ModBlock implements ITileEntityProvid
 
     @Override
     public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
-        if (getIsPowered(pos, worldIn)) {
+        if (stateIn.getValue(BlockReceiverRedstone.POWERED)) {
             worldIn.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + 0.5, pos.getY() + 0.9,
                 pos.getZ() + 0.5, 0, 0, 0);
         }
@@ -58,8 +73,8 @@ public class BlockReceiverRedstone extends ModBlock implements ITileEntityProvid
         return false;
     }
 
-    private boolean getIsPowered(BlockPos pos, IBlockAccess world) {
-        return world.getTileEntity(pos) instanceof TileReceiverRedstone
-            && ((TileReceiverRedstone) world.getTileEntity(pos)).getIsPowered();
+    @Override public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world,
+        BlockPos pos, EntityPlayer player) {
+        return new ItemStack(this);
     }
 }

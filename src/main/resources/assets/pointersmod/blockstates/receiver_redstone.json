@@ -4,6 +4,12 @@
     "model": "pointersmod:receiver_redstone"
   },
   "variants": {
+    "powered=true": {
+      "model": "pointersmod:receiver_redstone"
+    },
+    "powered=false": {
+      "model": "pointersmod:receiver_redstone"
+    },
     "normal": [{}],
     "inventory": [{}]
   }
