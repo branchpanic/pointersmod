@@ -17,20 +17,20 @@ import org.apache.logging.log4j.Logger;
 /**
  * Main mod class.
  */
-@Mod(modid = PointersMod.MODID, version = PointersMod.VERSION, name = PointersMod.MODNAME)
+@Mod(modid = PointersMod.MODID, version = PointersMod.VERSION, name = PointersMod.MODNAME,
+        dependencies = PointersMod.DEPENDENCIES)
 public class PointersMod {
     /**
-     * Mod metadata: ID, human readable name, version
+     * Mod metadata: ID, human readable name, version, dependencies
      */
     public static final String MODID = "pointersmod";
     public static final String MODNAME = "Pointers";
-    public static final String VERSION = "1.10.2-1.0.0";
+    public static final String VERSION = "1.10.2-0.1-alpha.0";
+    public static final String DEPENDENCIES = "required-after:tesla@[1.2.1.0,)";
 
     /**
      * Networking & Proxy values
      */
-    public static final SimpleNetworkWrapper PACKET_HANDLER =
-        NetworkRegistry.INSTANCE.newSimpleChannel("pointmod");
     @Mod.Instance(value = PointersMod.MODID) public static PointersMod INSTANCE;
     @SidedProxy(clientSide = "notjoe.pointersmod.client.ProxyClient",
         serverSide = "notjoe.pointersmod.common.ProxyCommon") public static ProxyCommon proxy;

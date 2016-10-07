@@ -13,7 +13,6 @@ import notjoe.pointersmod.common.ProxyCommon;
 public class ProxyClient extends ProxyCommon {
     @Override public void preInit(FMLPreInitializationEvent event) {
         super.preInit(event);
-        OBJLoader.INSTANCE.addDomain(PointersMod.MODID);
         for (Object item : Item.REGISTRY) {
             if (item instanceof RegisterableModel) {
                 ((RegisterableModel) item).registerModel();
