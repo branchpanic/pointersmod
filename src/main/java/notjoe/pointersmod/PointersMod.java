@@ -26,7 +26,7 @@ public class PointersMod {
     public static final String MODID = "pointersmod";
     public static final String MODNAME = "Pointers";
     public static final String VERSION = "1.10.2-0.1-alpha.0";
-    public static final String DEPENDENCIES = "required-after:tesla@[1.2.1.0,)";
+    public static final String DEPENDENCIES = "required-after:Forge;required-after:Tesla;";
 
     /**
      * Networking & Proxy values
