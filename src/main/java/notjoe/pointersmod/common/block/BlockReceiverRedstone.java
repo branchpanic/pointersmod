@@ -1,14 +1,11 @@
 package notjoe.pointersmod.common.block;
 
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -16,7 +13,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import notjoe.pointersmod.common.tile.TileReceiverRedstone;
 
 import java.util.Random;
 
@@ -27,7 +23,8 @@ public class BlockReceiverRedstone extends ModBlock {
 
     public BlockReceiverRedstone() {
         super("receiver_redstone", Material.CIRCUITS);
-        setDefaultState(blockState.getBaseState().withProperty(BlockReceiverRedstone.POWERED, false));
+        setDefaultState(
+            blockState.getBaseState().withProperty(BlockReceiverRedstone.POWERED, false));
     }
 
     @Override public boolean canProvidePower(IBlockState state) {
@@ -37,7 +34,7 @@ public class BlockReceiverRedstone extends ModBlock {
     @Override
     public int getWeakPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos,
         EnumFacing side) {
-        return blockState.getValue(BlockReceiverRedstone.POWERED)? 15: 0;
+        return blockState.getValue(BlockReceiverRedstone.POWERED) ? 15 : 0;
     }
 
     @Override protected BlockStateContainer createBlockState() {
@@ -49,7 +46,7 @@ public class BlockReceiverRedstone extends ModBlock {
     }
 
     @Override public int getMetaFromState(IBlockState state) {
-        return state.getValue(BlockReceiverRedstone.POWERED)? 1: 0;
+        return state.getValue(BlockReceiverRedstone.POWERED) ? 1 : 0;
     }
 
     @Override

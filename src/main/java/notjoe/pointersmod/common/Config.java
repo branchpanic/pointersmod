@@ -50,9 +50,8 @@ public class Config {
         teleportTpu =
             c.getInt("teleportTpu", CATEGORY_GENERAL, Config.teleportTpu, 0, Integer.MAX_VALUE,
                 "How much Tesla energy is used every time a Positional Pointer is used.");
-        worldTpu =
-            c.getInt("worldTpu", CATEGORY_GENERAL, Config.worldTpu, 0, Integer.MAX_VALUE,
-                "How much Tesla energy is used every time a Mechanical Pointer is used.");
+        worldTpu = c.getInt("worldTpu", CATEGORY_GENERAL, Config.worldTpu, 0, Integer.MAX_VALUE,
+            "How much Tesla energy is used every time a Mechanical Pointer is used.");
         redstoneTpu =
             c.getInt("redstoneTpu", CATEGORY_GENERAL, Config.redstoneTpu, 0, Integer.MAX_VALUE,
                 "How much Tesla energy is used every time a Redstone Pointer is used.");
