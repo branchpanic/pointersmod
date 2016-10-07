@@ -31,7 +31,7 @@ public class ItemPointerBase extends ModItem {
         this.pointerAction = pointerAction;
         setMaxStackSize(1);
         setMaxDamage((int) pointerAction
-            .getTeslaCapacity()); // TODO: What if the pointer has a capacity greater than Integer.MAX_VALUE?
+            .getTeslaCapacity());
     }
 
     @Override public boolean showDurabilityBar(ItemStack stack) {
@@ -64,7 +64,6 @@ public class ItemPointerBase extends ModItem {
             System.out.println(holder.getStoredPower() + " / " + holder.getCapacity());
             if (producer.takePower(pointerAction.getTeslaPerUse(), true) >= pointerAction
                 .getTeslaPerUse()) {
-                producer.takePower(pointerAction.getTeslaPerUse(), false);
                 if (playerIn.isSneaking() && hand == EnumHand.OFF_HAND) {
                     success = pointerAction
                         .setPointerTarget(stack, new BlockInWorld(pos, playerIn.dimension, facing),
@@ -75,6 +74,8 @@ public class ItemPointerBase extends ModItem {
                     success = pointerAction.pointerActivated(stack, worldIn, playerIn);
                 }
             }
+
+            if(success) producer.takePower(pointerAction.getTeslaPerUse(), false);
         }
         return success ? EnumActionResult.SUCCESS : EnumActionResult.FAIL;
     }
@@ -87,12 +88,13 @@ public class ItemPointerBase extends ModItem {
                 stack.getCapability(TeslaCapabilities.CAPABILITY_PRODUCER, null);
             if (producer.takePower(pointerAction.getTeslaPerUse(), true) >= pointerAction
                 .getTeslaPerUse()) {
-                producer.takePower(pointerAction.getTeslaPerUse(), false);
                 if (playerIn.isSneaking() && hand == EnumHand.MAIN_HAND) {
                     success = pointerAction.pointerActivatedSecondary(stack, worldIn, playerIn);
                 } else if (hand == EnumHand.MAIN_HAND) {
                     success = pointerAction.pointerActivated(stack, worldIn, playerIn);
                 }
+
+                if(success) producer.takePower(pointerAction.getTeslaPerUse(), false);
             }
         }
 

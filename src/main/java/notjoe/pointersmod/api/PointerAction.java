@@ -91,6 +91,7 @@ abstract public class PointerAction {
         return world.isBlockLoaded(target.pos) &&
             player.canPlayerEdit(target.pos, target.facing, stack) &&
             player.capabilities.allowEdit &&
+            player.dimension == target.dimension &&
             (Config.pointerOperatingRange <= 0
                 || Math.sqrt(player.getDistanceSq(target.pos)) <= Config.pointerOperatingRange);
     }
