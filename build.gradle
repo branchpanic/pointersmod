@@ -30,8 +30,8 @@ minecraft {
 
 sourceSets {
     main {
-        java { srcDirs = ["$projectDir/src/java"] }
-        resources { srcDirs = ["$projectDir/src/resources"] }
+        java { srcDirs = ["$projectDir/src/main/java"] }
+        resources { srcDirs = ["$projectDir/src/main/resources"] }
     }
 }
 
