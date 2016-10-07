@@ -15,10 +15,6 @@ import notjoe.pointersmod.common.Config;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Progress:
- * TODO: Game will crash if the target is destroyed or unloaded (isTargetAccessible is not implemented)
- */
 public class PointerActionInventory extends PointerAction {
     private boolean ignoreFacing;
 
@@ -52,7 +48,6 @@ public class PointerActionInventory extends PointerAction {
             if (handler != null) {
                 player.openGui(PointersMod.INSTANCE, 0, world, 0, 0, 0);
             }
-
             return true;
         }
         return false;

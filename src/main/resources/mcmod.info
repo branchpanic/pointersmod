@@ -9,7 +9,7 @@
   "updateUrl": "",
   "authorList": ["notjoe_"],
   "credits": "",
-  "logoFile": "",
+  "logoFile": "assets/logo.png",
   "screenshots": [],
   "dependencies": []
 }

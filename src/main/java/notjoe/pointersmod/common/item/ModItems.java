@@ -1,10 +1,7 @@
 package notjoe.pointersmod.common.item;
 
 import net.minecraft.item.Item;
-import notjoe.pointersmod.api.actions.PointerActionInventory;
-import notjoe.pointersmod.api.actions.PointerActionRedstone;
-import notjoe.pointersmod.api.actions.PointerActionTeleport;
-import notjoe.pointersmod.api.actions.PointerActionWorld;
+import notjoe.pointersmod.api.actions.*;
 import notjoe.pointersmod.common.Config;
 
 public class ModItems {
@@ -12,6 +9,9 @@ public class ModItems {
     public static Item pointer_world;
     public static Item pointer_redstone;
     public static Item pointer_teleport;
+    public static Item pointer_fluid;
+
+    public static Item component;
 
     public static void preInit() {
         if (Config.enablePointerInventory)
@@ -22,5 +22,9 @@ public class ModItems {
             pointer_redstone = new ItemPointerBase("pointer_redstone", new PointerActionRedstone());
         if (Config.enablePointerTeleport)
             pointer_teleport = new ItemPointerBase("pointer_teleport", new PointerActionTeleport());
+        pointer_fluid = new ItemPointerBase("pointer_fluid", new PointerActionFluid());
+
+        if (Config.addCraftingRecipes)
+            component = new ItemComponent();
     }
 }

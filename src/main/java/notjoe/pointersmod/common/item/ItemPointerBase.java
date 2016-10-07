@@ -30,8 +30,7 @@ public class ItemPointerBase extends ModItem {
         super(unlocalizedName);
         this.pointerAction = pointerAction;
         setMaxStackSize(1);
-        setMaxDamage((int) pointerAction
-            .getTeslaCapacity());
+        setMaxDamage((int) pointerAction.getTeslaCapacity());
     }
 
     @Override public boolean showDurabilityBar(ItemStack stack) {
@@ -61,7 +60,6 @@ public class ItemPointerBase extends ModItem {
             ITeslaProducer producer =
                 stack.getCapability(TeslaCapabilities.CAPABILITY_PRODUCER, null);
             ITeslaHolder holder = stack.getCapability(TeslaCapabilities.CAPABILITY_HOLDER, null);
-            System.out.println(holder.getStoredPower() + " / " + holder.getCapacity());
             if (producer.takePower(pointerAction.getTeslaPerUse(), true) >= pointerAction
                 .getTeslaPerUse()) {
                 if (playerIn.isSneaking() && hand == EnumHand.OFF_HAND) {
@@ -75,7 +73,8 @@ public class ItemPointerBase extends ModItem {
                 }
             }
 
-            if(success) producer.takePower(pointerAction.getTeslaPerUse(), false);
+            if (success)
+                producer.takePower(pointerAction.getTeslaPerUse(), false);
         }
         return success ? EnumActionResult.SUCCESS : EnumActionResult.FAIL;
     }
@@ -94,7 +93,8 @@ public class ItemPointerBase extends ModItem {
                     success = pointerAction.pointerActivated(stack, worldIn, playerIn);
                 }
 
-                if(success) producer.takePower(pointerAction.getTeslaPerUse(), false);
+                if (success)
+                    producer.takePower(pointerAction.getTeslaPerUse(), false);
             }
         }
 

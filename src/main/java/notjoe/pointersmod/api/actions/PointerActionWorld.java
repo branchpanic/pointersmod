@@ -26,7 +26,6 @@ public class PointerActionWorld extends PointerAction {
                 .onBlockActivated(world, blockInWorld.pos, world.getBlockState(blockInWorld.pos),
                     player, EnumHand.MAIN_HAND, stack, blockInWorld.facing, 0.5f, 0.5f, 0.5f);
         }
-
         return false;
     }
 

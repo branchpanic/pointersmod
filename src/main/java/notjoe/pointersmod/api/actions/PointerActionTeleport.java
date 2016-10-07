@@ -22,7 +22,8 @@ public class PointerActionTeleport extends PointerAction {
     @Override public boolean pointerActivated(ItemStack stack, World world, EntityPlayer player) {
         if (hasTarget(stack) && isTargetAccessible(stack, world, player)) {
             BlockInWorld blockInWorld = new BlockInWorld(stack.getTagCompound());
-            player.setPosition(blockInWorld.pos.getX() + 0.5, blockInWorld.pos.getY() + 0.5, blockInWorld.pos.getZ() + 0.5);
+            player.setPosition(blockInWorld.pos.getX() + 0.5, blockInWorld.pos.getY() + 0.5,
+                blockInWorld.pos.getZ() + 0.5);
             return true;
         }
         return false;

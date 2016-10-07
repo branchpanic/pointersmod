@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "pointersmod:items/pointer_null"
+    "layer0": "pointersmod:items/pointer_fluid"
   }
 }
