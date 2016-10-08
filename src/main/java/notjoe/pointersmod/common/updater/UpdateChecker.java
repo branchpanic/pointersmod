@@ -23,7 +23,9 @@ public class UpdateChecker {
     public void checkForUpdates() {
         InputStream is;
         try {
-            is = new URL("https://raw.githubusercontent.com/notjoe7F/pointersmod/master/release-info.json").openStream();
+            is = new URL(
+                "https://raw.githubusercontent.com/notjoe7F/pointersmod/master/release-info.json")
+                .openStream();
         } catch (IOException e) {
             e.printStackTrace();
             PointersMod.updateStatusFormatted = I18n.format("pointers.update.error");
@@ -35,7 +37,7 @@ public class UpdateChecker {
             new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
         Map jsonData = new Gson().fromJson(reader, Map.class);
         if (jsonData.containsKey(releaseType)) {
-            if(!jsonData.get(releaseType).equals("")) {
+            if (!jsonData.get(releaseType).equals("")) {
                 if (jsonData.get(releaseType).equals(PointersMod.VERSION)) {
                     PointersMod.updateStatusFormatted = I18n.format("pointers.update.uptodate");
                     PointersMod.updateStatusPlain = PointersMod.updateStatusFormatted;
@@ -49,8 +51,7 @@ public class UpdateChecker {
             } else {
                 PointersMod.updateStatusFormatted =
                     I18n.format("pointers.update.nover", color(releaseType));
-                PointersMod.updateStatusPlain =
-                    I18n.format("pointers.update.nover", releaseType);
+                PointersMod.updateStatusPlain = I18n.format("pointers.update.nover", releaseType);
             }
         }
         try {

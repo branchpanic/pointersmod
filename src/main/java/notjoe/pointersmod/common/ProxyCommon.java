@@ -33,7 +33,7 @@ public class ProxyCommon {
     }
 
     public void postInit(FMLPostInitializationEvent event) {
-        if(Config.enableUpdateCheck) {
+        if (Config.enableUpdateCheck) {
             UpdateChecker ch = new UpdateChecker(Config.updateChannel);
             ch.checkForUpdates();
             PointersMod.logger.info("Update status: " + PointersMod.updateStatusPlain);

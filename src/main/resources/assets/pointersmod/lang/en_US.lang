@@ -2,7 +2,7 @@ item.pointersmod.pointer_inv.name=Inventory Pointer
 item.pointersmod.pointer_world.name=Mechanical Pointer
 item.pointersmod.pointer_redstone.name=Redstone Pointer
 item.pointersmod.pointer_teleport.name=Positional Pointer
-item.pointersmod.pointer_fluid.name=Fluid Pointer [WIP]
+item.pointersmod.pointer_fluid.name=Fluid Pointer
 item.pointersmod.component.pointer.name=Pointer
 
 tile.pointersmod.receiver_redstone.name=Redstone Receiver

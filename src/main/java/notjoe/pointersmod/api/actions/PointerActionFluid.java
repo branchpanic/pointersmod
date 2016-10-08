@@ -8,8 +8,10 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import notjoe.pointersmod.api.BlockInWorld;
 import notjoe.pointersmod.api.PointerAction;
+import notjoe.pointersmod.common.Config;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class PointerActionFluid extends PointerAction {
@@ -27,33 +29,74 @@ public class PointerActionFluid extends PointerAction {
     @Override public boolean pointerActivated(ItemStack stack, World world, EntityPlayer player) {
         if (hasTarget(stack) && isTargetAccessible(stack, world, player)) {
             BlockInWorld target = new BlockInWorld(stack.getTagCompound());
-            if (target.getTileEntity(world)
+            if (target.isTileEntity(world) && target.getTileEntity(world)
                 .hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, target.facing)) {
-                IFluidHandler handler = target.getTileEntity(world)
+                IFluidHandler targetFluidHandler = target.getTileEntity(world)
                     .getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, target.facing);
-                List<ItemStack> fluidStacks = new LinkedList<>();
-                for (ItemStack s : player.inventory.mainInventory) {
-                    if (s != null && s
-                        .hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {
-                        fluidStacks.add(s);
-                    }
-                }
-
-                if (handler != null && !fluidStacks.isEmpty()) {
-                    FluidStack fluidStack = handler.drain(1000, false);
-                    for (ItemStack s : fluidStacks) {
-                        IFluidHandler stackHandler =
-                            s.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
-                        if (fluidStack.amount == stackHandler.fill(fluidStack, false)) {
-                            handler.drain(1000, true);
-                            stackHandler.fill(fluidStack, true);
+                FluidStack transferStack =
+                    targetFluidHandler.drain(Config.fluidPointerTransfer, false);
+                if (transferStack != null && transferStack.amount == Config.fluidPointerTransfer) {
+                    List<ItemStack> fluidCapableStacks = getFluidCapableStacks(player);
+                    for (ItemStack itemStack : fluidCapableStacks) {
+                        IFluidHandler stackFluidHandler = itemStack
+                            .getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
+                        if (stackFluidHandler.fill(transferStack, false)
+                            == Config.fluidPointerTransfer) {
+                            targetFluidHandler.drain(transferStack, true);
+                            stackFluidHandler.fill(transferStack, true);
+                            world.notifyNeighborsOfStateChange(target.pos,
+                                world.getBlockState(target.pos).getBlock());
                             return true;
                         }
                     }
                 }
             }
         }
-
         return false;
+    }
+
+    @Override
+    public boolean pointerActivatedSecondary(ItemStack stack, World world, EntityPlayer player) {
+        if (hasTarget(stack) && isTargetAccessible(stack, world, player)) {
+            BlockInWorld target = new BlockInWorld(stack.getTagCompound());
+            if (target.isTileEntity(world) && target.getTileEntity(world)
+                .hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, target.facing)) {
+                IFluidHandler targetFluidHandler = target.getTileEntity(world)
+                    .getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, target.facing);
+                List<ItemStack> fluidCapableStacks = getFluidCapableStacks(player);
+                for (ItemStack itemStack : fluidCapableStacks) {
+                    IFluidHandler handler = itemStack
+                        .getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
+                    FluidStack transferStack = handler.drain(Config.fluidPointerTransfer, false);
+                    if (transferStack != null
+                        && transferStack.amount == Config.fluidPointerTransfer) {
+                        if (targetFluidHandler.fill(transferStack, false)
+                            == Config.fluidPointerTransfer) {
+                            handler.drain(transferStack, true);
+                            targetFluidHandler.fill(transferStack, true);
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override public long getTeslaPerUse() {
+        return Config.fluidTpu;
+    }
+
+    private List<ItemStack> getFluidCapableStacks(EntityPlayer player) {
+        ArrayList<ItemStack> capableStacks = new ArrayList<>();
+        ArrayList<ItemStack> allPlayerInventories = new ArrayList<>();
+        Collections.addAll(allPlayerInventories, player.inventory.armorInventory);
+        Collections.addAll(allPlayerInventories, player.inventory.mainInventory);
+        Collections.addAll(allPlayerInventories, player.inventory.offHandInventory);
+        Collections.addAll(capableStacks, allPlayerInventories.stream().filter(
+            stack -> stack != null && stack
+                .hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null))
+            .toArray(ItemStack[]::new));
+        return capableStacks;
     }
 }

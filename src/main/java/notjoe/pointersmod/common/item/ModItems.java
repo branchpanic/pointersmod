@@ -22,7 +22,8 @@ public class ModItems {
             pointer_redstone = new ItemPointerBase("pointer_redstone", new PointerActionRedstone());
         if (Config.enablePointerTeleport)
             pointer_teleport = new ItemPointerBase("pointer_teleport", new PointerActionTeleport());
-        pointer_fluid = new ItemPointerBase("pointer_fluid", new PointerActionFluid());
+        if (Config.enablePointerFluid)
+            pointer_fluid = new ItemPointerBase("pointer_fluid", new PointerActionFluid());
 
         if (Config.addCraftingRecipes)
             component = new ItemComponent();
