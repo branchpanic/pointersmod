@@ -34,6 +34,11 @@ public class ItemPointerBase extends ModItem {
     }
 
     @Override public boolean showDurabilityBar(ItemStack stack) {
+        if (stack.hasCapability(TeslaCapabilities.CAPABILITY_HOLDER, null)) {
+            ITeslaHolder teslaHolder =
+                stack.getCapability(TeslaCapabilities.CAPABILITY_HOLDER, null);
+            if(teslaHolder.getStoredPower() == 0) return false;
+        }
         return true;
     }
 
@@ -56,12 +61,12 @@ public class ItemPointerBase extends ModItem {
     public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn,
         BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         boolean success = false;
+        boolean playerIsCreative = playerIn.capabilities.isCreativeMode;
         if (stack.hasCapability(TeslaCapabilities.CAPABILITY_PRODUCER, null)) {
             ITeslaProducer producer =
                 stack.getCapability(TeslaCapabilities.CAPABILITY_PRODUCER, null);
-            ITeslaHolder holder = stack.getCapability(TeslaCapabilities.CAPABILITY_HOLDER, null);
             if (producer.takePower(pointerAction.getTeslaPerUse(), true) >= pointerAction
-                .getTeslaPerUse()) {
+                .getTeslaPerUse() || playerIsCreative) {
                 if (playerIn.isSneaking() && hand == EnumHand.OFF_HAND) {
                     success = pointerAction
                         .setPointerTarget(stack, new BlockInWorld(pos, playerIn.dimension, facing),
@@ -73,7 +78,7 @@ public class ItemPointerBase extends ModItem {
                 }
             }
 
-            if (success)
+            if (success && !playerIsCreative)
                 producer.takePower(pointerAction.getTeslaPerUse(), false);
         }
         return success ? EnumActionResult.SUCCESS : EnumActionResult.FAIL;
@@ -82,18 +87,19 @@ public class ItemPointerBase extends ModItem {
     @Override public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World worldIn,
         EntityPlayer playerIn, EnumHand hand) {
         boolean success = false;
+        boolean playerIsCreative = playerIn.capabilities.isCreativeMode;
         if (stack.hasCapability(TeslaCapabilities.CAPABILITY_PRODUCER, null)) {
             ITeslaProducer producer =
                 stack.getCapability(TeslaCapabilities.CAPABILITY_PRODUCER, null);
             if (producer.takePower(pointerAction.getTeslaPerUse(), true) >= pointerAction
-                .getTeslaPerUse()) {
+                .getTeslaPerUse() || playerIsCreative) {
                 if (playerIn.isSneaking() && hand == EnumHand.MAIN_HAND) {
                     success = pointerAction.pointerActivatedSecondary(stack, worldIn, playerIn);
                 } else if (hand == EnumHand.MAIN_HAND) {
                     success = pointerAction.pointerActivated(stack, worldIn, playerIn);
                 }
 
-                if (success)
+                if (success && !playerIsCreative)
                     producer.takePower(pointerAction.getTeslaPerUse(), false);
             }
         }

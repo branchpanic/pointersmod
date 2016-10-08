@@ -16,7 +16,7 @@ public class PointerActionTeleport extends PointerAction {
             new BlockInWorld(blockInWorld.pos.offset(blockInWorld.facing), blockInWorld.dimension,
                 blockInWorld.facing);
         blockUp.serializeNbt(stack.getTagCompound());
-        return false;
+        return true;
     }
 
     @Override public boolean pointerActivated(ItemStack stack, World world, EntityPlayer player) {
