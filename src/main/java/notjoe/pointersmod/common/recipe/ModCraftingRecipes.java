@@ -1,4 +1,4 @@
-package notjoe.pointersmod.common.recipes;
+package notjoe.pointersmod.common.recipe;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;

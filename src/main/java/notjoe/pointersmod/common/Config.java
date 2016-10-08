@@ -5,6 +5,7 @@ import notjoe.pointersmod.PointersMod;
 
 public class Config {
     private static final String CATEGORY_GENERAL = "general";
+    private static final String CATEGORY_UPDATES = "updates";
 
     public static int pointerOperatingRange = 0;
 
@@ -14,6 +15,9 @@ public class Config {
     public static boolean enablePointerRedstone = true;
     public static boolean enablePointerTeleport = true;
     public static boolean enablePointerWorld = true;
+
+    public static boolean enableUpdateCheck = true;
+    public static String updateChannel = "alpha";
 
     public static int pointerCapacity = 100000;
     public static int inventoryTpu = 1000;
@@ -26,6 +30,7 @@ public class Config {
         try {
             c.load();
             readGeneralValues(c);
+            readUpdateValues(c);
         } catch (Exception e) {
             PointersMod.logger.error("Could not load config file! Using default values.");
         } finally {
@@ -33,6 +38,12 @@ public class Config {
                 c.save();
             }
         }
+    }
+
+    private static void readUpdateValues(Configuration c) {
+        c.addCustomCategoryComment(CATEGORY_UPDATES, "Update checking settings.");
+        enableUpdateCheck = c.getBoolean("updateCheck", CATEGORY_UPDATES, true, "Determines whether or not Pointers should check for updates on game startup.");
+        updateChannel = c.getString("updateChannel", CATEGORY_UPDATES, "alpha", "Determines what type of release to check for updates for.", new String[]{"alpha", "beta", "release"});
     }
 
     private static void readGeneralValues(Configuration c) {
@@ -69,6 +80,6 @@ public class Config {
                 "Determines whether or not the Mechanical Pointer is enabled.");
         addCraftingRecipes =
             c.getBoolean("addCraftingRecipes", CATEGORY_GENERAL, Config.addCraftingRecipes,
-                "Determines whether or not the mod should add its own crafting recipes and components.");
+                "Determines whether or not the mod should add its own crafting recipe and components.");
     }
 }

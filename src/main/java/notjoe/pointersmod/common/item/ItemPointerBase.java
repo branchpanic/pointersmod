@@ -51,7 +51,7 @@ public class ItemPointerBase extends ModItem {
         boolean success = false;
         boolean playerIsCreative = playerIn.capabilities.isCreativeMode;
         ITeslaProducer producer = getTeslaProducer(stack);
-        if(producer != null) {
+        if (producer != null) {
             if (producer.takePower(pointerAction.getTeslaPerUse(), true) >= pointerAction
                 .getTeslaPerUse() || playerIsCreative) {
                 if (playerIn.isSneaking() && hand == EnumHand.OFF_HAND) {
@@ -79,7 +79,7 @@ public class ItemPointerBase extends ModItem {
 
     @Override public int getDamage(ItemStack stack) {
         ITeslaHolder holder = getTeslaHolder(stack);
-        if(holder != null) {
+        if (holder != null) {
             return getMaxDamage() - (int) holder.getStoredPower();
         }
 
@@ -125,7 +125,7 @@ public class ItemPointerBase extends ModItem {
         }
 
         ITeslaHolder holder = getTeslaHolder(stack);
-        if(holder != null) {
+        if (holder != null) {
             tooltip
                 .add(I18n.format("pointers.power", holder.getStoredPower(), holder.getCapacity()));
             tooltip.add(I18n.format("pointers.powerperuse", pointerAction.getTeslaPerUse()));

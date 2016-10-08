@@ -24,7 +24,6 @@ import org.apache.logging.log4j.Logger;
     public static final String MODNAME = "Pointers";
     public static final String VERSION = "1.10.2-0.1-alpha.1";
     public static final String DEPENDENCIES = "required-after:tesla@[1.2.1.49,);";
-    public static final String RELEASE_TYPE = "alpha";
 
     /**
      * Networking & Proxy values
@@ -38,6 +37,12 @@ import org.apache.logging.log4j.Logger;
      */
     public static Logger logger;
     public static Configuration config;
+
+    /**
+     * Update status
+     */
+    public static String updateStatusFormatted = "";
+    public static String updateStatusPlain = "";
 
     /**
      * Creative Tab

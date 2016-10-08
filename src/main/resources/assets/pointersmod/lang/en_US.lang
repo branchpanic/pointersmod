@@ -17,4 +17,9 @@ pointers.targetname=Target block: %s.
 pointers.availableslots=%d slots available on face %s.
 pointers.power=%d T/%d T
 pointers.powerperuse=%d T/use
-pointers.badtarget=Target nonexistent!
+
+pointers.update=[Pointers] An update of type %s is available: %s!
+pointers.update.uptodate=[Pointers] Pointers is up to date!
+pointers.update.error=[Pointers] An error occurred while checking for updates!
+pointers.update.ioerror=[Pointers] An I/O error occurred while checking for updates!
+pointers.update.nover=[Pointers] No versions were found of type %s!

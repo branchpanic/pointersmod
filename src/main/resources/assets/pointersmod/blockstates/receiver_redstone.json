@@ -10,7 +10,11 @@
     "powered=false": {
       "model": "pointersmod:receiver_redstone"
     },
-    "normal": [{}],
-    "inventory": [{}]
+    "normal": [
+      {}
+    ],
+    "inventory": [
+      {}
+    ]
   }
 }
