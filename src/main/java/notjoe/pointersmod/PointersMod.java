@@ -1,6 +1,5 @@
 package notjoe.pointersmod;
 
-import net.darkhax.tesla.Tesla;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.config.Configuration;
@@ -9,8 +8,6 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import notjoe.pointersmod.common.ProxyCommon;
 import notjoe.pointersmod.common.item.ModItems;
 import org.apache.logging.log4j.Logger;
@@ -19,8 +16,7 @@ import org.apache.logging.log4j.Logger;
  * Main mod class.
  */
 @Mod(modid = PointersMod.MODID, version = PointersMod.VERSION, name = PointersMod.MODNAME,
-        dependencies = PointersMod.DEPENDENCIES)
-public class PointersMod {
+    dependencies = PointersMod.DEPENDENCIES) public class PointersMod {
     /**
      * Mod metadata: ID, human readable name, version, dependencies
      */
@@ -28,6 +24,7 @@ public class PointersMod {
     public static final String MODNAME = "Pointers";
     public static final String VERSION = "1.10.2-0.1-alpha.1";
     public static final String DEPENDENCIES = "required-after:tesla@[1.2.1.49,);";
+    public static final String RELEASE_TYPE = "alpha";
 
     /**
      * Networking & Proxy values

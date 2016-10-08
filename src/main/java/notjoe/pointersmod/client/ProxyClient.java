@@ -2,11 +2,9 @@ package notjoe.pointersmod.client;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
-import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import notjoe.pointersmod.PointersMod;
 import notjoe.pointersmod.api.RegisterableModel;
 import notjoe.pointersmod.common.ProxyCommon;
 
