@@ -47,6 +47,14 @@ public class ModCraftingRecipes {
                         new ItemStack(ModItems.component, 1, 0), new ItemStack(Blocks.STONE_BUTTON),
                         new ItemStack(Blocks.LEVER)));
             }
+
+            if(Config.enablePointerFluid) {
+                GameRegistry.addRecipe(
+                    new ShapelessOreRecipe(new ItemStack(ModItems.pointer_fluid, 1),
+                        new ItemStack(ModItems.component, 1, 0), new ItemStack(Items.BUCKET),
+                        new ItemStack(Items.ENDER_PEARL))
+                );
+            }
         }
     }
 }

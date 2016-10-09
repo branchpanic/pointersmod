@@ -5,6 +5,7 @@ import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.resources.I18n;
 import notjoe.pointersmod.PointersMod;
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,7 +21,8 @@ public class UpdateChecker {
         this.releaseType = releaseType;
     }
 
-    public void checkForUpdates() {
+    public UpdateStatus checkForUpdates() {
+        PointersMod.logger.info("Beginning update check");
         InputStream is;
         try {
             is = new URL(
@@ -28,43 +30,29 @@ public class UpdateChecker {
                 .openStream();
         } catch (IOException e) {
             e.printStackTrace();
-            PointersMod.updateStatusFormatted = I18n.format("pointers.update.error");
-            PointersMod.updateStatusPlain = PointersMod.updateStatusFormatted;
-            return;
+            PointersMod.logger.error("Couldn't check for updates.");
+            return UpdateStatus.failedUpdate();
         }
 
         BufferedReader reader =
             new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
         Map jsonData = new Gson().fromJson(reader, Map.class);
-        if (jsonData.containsKey(releaseType)) {
-            if (!jsonData.get(releaseType).equals("")) {
-                if (jsonData.get(releaseType).equals(PointersMod.VERSION)) {
-                    PointersMod.updateStatusFormatted = I18n.format("pointers.update.uptodate");
-                    PointersMod.updateStatusPlain = PointersMod.updateStatusFormatted;
-                } else {
-                    PointersMod.updateStatusFormatted =
-                        I18n.format("pointers.update", color(releaseType),
-                            color((String) jsonData.get(releaseType)));
-                    PointersMod.updateStatusPlain =
-                        I18n.format("pointers.update", releaseType, jsonData.get(releaseType));
-                }
-            } else {
-                PointersMod.updateStatusFormatted =
-                    I18n.format("pointers.update.nover", color(releaseType));
-                PointersMod.updateStatusPlain = I18n.format("pointers.update.nover", releaseType);
-            }
-        }
+
+        UpdateStatus status = new UpdateStatus(
+            releaseType,
+            jsonData.get("alpha").toString(),
+            jsonData.get("beta").toString(),
+            jsonData.get("release").toString()
+        );
+
         try {
             reader.close();
             is.close();
         } catch (IOException e) {
+            PointersMod.logger.warn("An error occurred while finishing update checking. Its stack trace follows.");
             e.printStackTrace();
-            PointersMod.updateStatusFormatted = I18n.format("pointers.update.ioerror");
-            PointersMod.updateStatusPlain = PointersMod.updateStatusFormatted;
         }
-    }
 
-    private String color(String original) {
-        return ChatFormatting.AQUA + original + ChatFormatting.RESET;
+        return status;
     }
 }

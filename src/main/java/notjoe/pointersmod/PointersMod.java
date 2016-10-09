@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import notjoe.pointersmod.common.ProxyCommon;
 import notjoe.pointersmod.common.item.ModItems;
+import notjoe.pointersmod.common.updater.UpdateStatus;
 import org.apache.logging.log4j.Logger;
 
 /**
@@ -41,8 +42,7 @@ import org.apache.logging.log4j.Logger;
     /**
      * Update status
      */
-    public static String updateStatusFormatted = "";
-    public static String updateStatusPlain = "";
+    public static UpdateStatus updateStatus = UpdateStatus.failedUpdate();
 
     /**
      * Creative Tab

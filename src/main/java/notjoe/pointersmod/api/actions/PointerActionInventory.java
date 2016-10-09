@@ -94,7 +94,6 @@ public class PointerActionInventory extends PointerAction {
                 }
             }
         }
-
         return stack;
     }
 
@@ -109,10 +108,9 @@ public class PointerActionInventory extends PointerAction {
     public IItemHandler getStackHandler(ItemStack stack, World world, EntityPlayer player) {
         if (hasTarget(stack) && isTargetAccessible(stack, world, player)) {
             BlockInWorld blockInWorld = getPointerTarget(stack);
-            IItemHandler handler = blockInWorld.getTileEntity(world)
+            return blockInWorld.getTileEntity(world)
                 .getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY,
                     ignoreFacing ? null : blockInWorld.facing);
-            return handler;
         }
 
         return null;

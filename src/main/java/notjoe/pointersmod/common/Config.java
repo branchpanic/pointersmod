@@ -48,7 +48,7 @@ public class Config {
         c.addCustomCategoryComment(CATEGORY_UPDATES, "Update checking settings.");
         enableUpdateCheck = c.getBoolean("updateCheck", CATEGORY_UPDATES, true,
             "Determines whether or not Pointers should check for updates on game startup.");
-        updateChannel = c.getString("updateChannel", CATEGORY_UPDATES, "alpha",
+        updateChannel = c.getString("updateChannel", CATEGORY_UPDATES, "release",
             "Determines what type of release to check for updates for.",
             new String[] {"alpha", "beta", "release"});
     }
