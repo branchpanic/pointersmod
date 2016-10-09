@@ -53,12 +53,57 @@ public class PointerActionInventory extends PointerAction {
         return false;
     }
 
+    @Override
+    public boolean pointerActivatedSecondary(ItemStack stack, World world, EntityPlayer player) {
+        if(hasTarget(stack) && isTargetAccessible(stack, world, player)) {
+            IItemHandler targetHandler = getStackHandler(stack, world, player);
+            for(int i = 0; i < player.inventory.mainInventory.length; i++) {
+                if(player.inventory.mainInventory[i] != null && player.inventory.mainInventory[i] != stack) {
+                    player.inventory.mainInventory[i] = moveStackToHandler(player.inventory.mainInventory[i], targetHandler);
+                }
+            }
+            player.inventory.markDirty();
+
+            return true;
+        }
+
+        return false;
+    }
+
     @Override public List<String> getExtraInfo(ItemStack stack) {
         NbtHelper.initNbtTagForStack(stack);
         if (stack.getTagCompound().hasKey("target_name"))
             return Collections.singletonList(I18n.format("pointers.targetname",
                 stack.getTagCompound().getString("target_name")));
         return null;
+    }
+
+    private ItemStack moveStackToHandler(ItemStack stack, IItemHandler handler) {
+        // First pass: Try to put stacks with others
+        for(int i = 0; i < handler.getSlots(); i++) {
+            if(handler.getStackInSlot(i) != null && handler.getStackInSlot(i).isItemEqual(stack)) {
+                stack = handler.insertItem(i, stack, false);
+            }
+        }
+        // Second pass: Try to put stack in an empty slot
+        if(stack != null) {
+            for(int i = 0; i < handler.getSlots(); i++) {
+                if(handler.getStackInSlot(i) == null) {
+                    stack = handler.insertItem(i, stack, false);
+                    break;
+                }
+            }
+        }
+
+        return stack;
+    }
+
+    @Override public boolean isTargetAccessible(ItemStack stack, World world, EntityPlayer player) {
+        BlockInWorld target = new BlockInWorld(stack.getTagCompound());
+        return super.isTargetAccessible(stack, world, player) &&
+            target.isTileEntity(world) && target.getTileEntity(world).hasCapability(
+            CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, target.facing);
+
     }
 
     public IItemHandler getStackHandler(ItemStack stack, World world, EntityPlayer player) {
