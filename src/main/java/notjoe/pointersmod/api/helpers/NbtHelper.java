@@ -3,6 +3,10 @@ package notjoe.pointersmod.api.helpers;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
+/**
+ * Various methods to help with NBT data.
+ * TODO: May not need its own class/package.
+ */
 public class NbtHelper {
     public static void initNbtTagForStack(ItemStack stack) {
         if (!stack.hasTagCompound())

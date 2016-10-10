@@ -18,7 +18,7 @@ public class Config {
     public static boolean enablePointerFluid = true;
 
     public static boolean enableUpdateCheck = true;
-    public static String updateChannel = "alpha";
+    public static String updateChannel = "release";
 
     public static int pointerCapacity = 100000;
     public static int inventoryTpu = 1000;
@@ -29,7 +29,7 @@ public class Config {
 
     public static int fluidPointerTransfer = 1000;
 
-    public static void initConfigValues() {
+    static void initConfigValues() {
         Configuration c = PointersMod.config;
         try {
             c.load();

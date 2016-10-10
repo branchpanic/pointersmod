@@ -4,6 +4,9 @@ import net.minecraft.item.Item;
 import notjoe.pointersmod.api.actions.*;
 import notjoe.pointersmod.common.Config;
 
+/**
+ * The items defined within this mod.
+ */
 public class ModItems {
     public static Item pointer_inv;
     public static Item pointer_world;

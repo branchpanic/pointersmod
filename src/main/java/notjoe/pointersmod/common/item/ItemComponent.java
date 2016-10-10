@@ -8,6 +8,12 @@ import net.minecraftforge.client.model.ModelLoader;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+/**
+ * A crafting component item. Has no functionality and makes use of sub-items.
+ */
 public class ItemComponent extends ModItem {
     public static final String[] TYPES = {"pointer"};
 
@@ -16,7 +22,8 @@ public class ItemComponent extends ModItem {
         setHasSubtypes(true);
     }
 
-    @Override public String getUnlocalizedName(ItemStack stack) {
+    @Override @Nonnull
+    public String getUnlocalizedName(ItemStack stack) {
         return super.getUnlocalizedName(stack) + "." + metaToString(stack.getItemDamage());
     }
 

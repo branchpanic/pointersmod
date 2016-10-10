@@ -6,7 +6,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import notjoe.pointersmod.api.BlockInWorld;
+
+import notjoe.pointersmod.api.BlockDetail;
 import notjoe.pointersmod.api.PointerAction;
 import notjoe.pointersmod.common.Config;
 
@@ -14,12 +15,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * A pointer action that transfers fluids.
+ */
 public class PointerActionFluid extends PointerAction {
     @Override
-    public boolean setPointerTarget(ItemStack stack, BlockInWorld blockInWorld, World world) {
-        if (blockInWorld.isTileEntity(world) && blockInWorld.getTileEntity(world)
-            .hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, blockInWorld.facing)) {
-            blockInWorld.serializeNbt(stack.getTagCompound());
+    public boolean setPointerTarget(ItemStack stack, BlockDetail blockDetail, World world) {
+        if (blockDetail.isTileEntity(world) && blockDetail.getTileEntity(world)
+            .hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, blockDetail.facing)) {
+            blockDetail.serializeNbt(stack.getTagCompound());
             return true;
         }
 
@@ -28,7 +32,7 @@ public class PointerActionFluid extends PointerAction {
 
     @Override public boolean pointerActivated(ItemStack stack, World world, EntityPlayer player) {
         if (hasTarget(stack) && isTargetAccessible(stack, world, player)) {
-            BlockInWorld target = new BlockInWorld(stack.getTagCompound());
+            BlockDetail target = new BlockDetail(stack.getTagCompound());
             if (target.isTileEntity(world) && target.getTileEntity(world)
                 .hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, target.facing)) {
                 IFluidHandler targetFluidHandler = target.getTileEntity(world)
@@ -58,7 +62,7 @@ public class PointerActionFluid extends PointerAction {
     @Override
     public boolean pointerActivatedSecondary(ItemStack stack, World world, EntityPlayer player) {
         if (hasTarget(stack) && isTargetAccessible(stack, world, player)) {
-            BlockInWorld target = new BlockInWorld(stack.getTagCompound());
+            BlockDetail target = new BlockDetail(stack.getTagCompound());
             if (target.isTileEntity(world) && target.getTileEntity(world)
                 .hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, target.facing)) {
                 IFluidHandler targetFluidHandler = target.getTileEntity(world)

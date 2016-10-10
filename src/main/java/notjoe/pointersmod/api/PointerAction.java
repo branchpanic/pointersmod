@@ -16,11 +16,11 @@ abstract public class PointerAction {
      * Sets the target of this pointer.
      *
      * @param stack        The pointer to bind.
-     * @param blockInWorld Information about the block to bind to.
+     * @param blockDetail Information about the block to bind to.
      * @param world        The world the block was bound in.
      * @return Whether or not the pointer was bound.
      */
-    abstract public boolean setPointerTarget(ItemStack stack, BlockInWorld blockInWorld,
+    abstract public boolean setPointerTarget(ItemStack stack, BlockDetail blockDetail,
         World world);
 
     /**
@@ -57,14 +57,14 @@ abstract public class PointerAction {
     }
 
     /**
-     * Gets the target BlockInWorld of this pointer.
+     * Gets the target BlockDetail of this pointer.
      * *May cause a NullPointerException if hasTarget has not been checked*
      *
      * @param stack The pointer stack.
-     * @return A BlockInWorld containing information about the pointer's target.
+     * @return A BlockDetail containing information about the pointer's target.
      */
-    public BlockInWorld getPointerTarget(ItemStack stack) {
-        return new BlockInWorld(stack.getTagCompound());
+    public BlockDetail getPointerTarget(ItemStack stack) {
+        return new BlockDetail(stack.getTagCompound());
     }
 
     /**
@@ -87,7 +87,7 @@ abstract public class PointerAction {
      * @return Whether or not the pointer's target is accessible.
      */
     public boolean isTargetAccessible(ItemStack stack, World world, EntityPlayer player) {
-        BlockInWorld target = getPointerTarget(stack);
+        BlockDetail target = getPointerTarget(stack);
         return world.isBlockLoaded(target.pos) &&
             player.canPlayerEdit(target.pos, target.facing, stack) &&
             player.capabilities.allowEdit &&

@@ -10,6 +10,9 @@ import net.minecraftforge.items.SlotItemHandler;
 
 import javax.annotation.Nullable;
 
+/**
+ * The container object for an Inventory Pointer's interface.
+ */
 public class ContainerInvPointer extends Container {
     public int width;
     public int height;

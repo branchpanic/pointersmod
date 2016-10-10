@@ -16,16 +16,19 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.items.IItemHandler;
-import notjoe.pointersmod.api.BlockInWorld;
-import notjoe.pointersmod.api.PointerAction;
-import notjoe.pointersmod.api.actions.PointerActionInventory;
 
+import notjoe.pointersmod.api.BlockDetail;
+import notjoe.pointersmod.api.PointerAction;
+
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
+/**
+ * An item that has various use actions based on a PointerAction.
+ */
 public class ItemPointerBase extends ModItem {
-    private PointerAction pointerAction;
+    public final PointerAction pointerAction;
 
     public ItemPointerBase(String unlocalizedName, PointerAction pointerAction) {
         super(unlocalizedName);
@@ -56,7 +59,7 @@ public class ItemPointerBase extends ModItem {
                 .getTeslaPerUse() || playerIsCreative) {
                 if (playerIn.isSneaking() && hand == EnumHand.OFF_HAND) {
                     success = pointerAction
-                        .setPointerTarget(stack, new BlockInWorld(pos, playerIn.dimension, facing),
+                        .setPointerTarget(stack, new BlockDetail(pos, playerIn.dimension, facing),
                             worldIn);
                 } else if (playerIn.isSneaking() && hand == EnumHand.MAIN_HAND) {
                     success = pointerAction.pointerActivatedSecondary(stack, worldIn, playerIn);
@@ -86,12 +89,13 @@ public class ItemPointerBase extends ModItem {
         return getMaxDamage();
     }
 
-    @Override public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
+    @Override @Nonnull
+    public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
         return new BaseTeslaContainerProvider(
             new BaseTeslaContainer(pointerAction.getTeslaCapacity(), 10000, 10000));
     }
 
-    @Override
+    @Override @Nonnull
     public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn,
         BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         return executePointerActions(stack, playerIn, worldIn, pos, hand, facing) ?
@@ -99,7 +103,7 @@ public class ItemPointerBase extends ModItem {
             EnumActionResult.FAIL;
     }
 
-    @Override public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World worldIn,
+    @Override @Nonnull public ActionResult<ItemStack> onItemRightClick(@Nonnull ItemStack stack, World worldIn,
         EntityPlayer playerIn, EnumHand hand) {
         if (hand == EnumHand.MAIN_HAND)
             return executePointerActions(stack, playerIn, worldIn, null, hand, null) ?
@@ -112,12 +116,12 @@ public class ItemPointerBase extends ModItem {
     public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip,
         boolean advanced) {
         if (pointerAction.hasTarget(stack)) {
-            BlockInWorld blockInWorld = pointerAction.getPointerTarget(stack);
+            BlockDetail blockDetail = pointerAction.getPointerTarget(stack);
             tooltip.add(
-                I18n.format("pointers.blockpos", blockInWorld.pos.getX(), blockInWorld.pos.getY(),
-                    blockInWorld.pos.getZ()));
-            tooltip.add(I18n.format("pointers.facing", blockInWorld.facing.getName()));
-            tooltip.add(I18n.format("pointers.dimension", blockInWorld.dimension));
+                I18n.format("pointers.blockpos", blockDetail.pos.getX(), blockDetail.pos.getY(),
+                    blockDetail.pos.getZ()));
+            tooltip.add(I18n.format("pointers.facing", blockDetail.facing.getName()));
+            tooltip.add(I18n.format("pointers.dimension", blockDetail.dimension));
             if (pointerAction.getExtraInfo(stack) != null)
                 tooltip.addAll(pointerAction.getExtraInfo(stack));
         } else {
@@ -131,13 +135,5 @@ public class ItemPointerBase extends ModItem {
             tooltip.add(I18n.format("pointers.powerperuse", pointerAction.getTeslaPerUse()));
         }
         super.addInformation(stack, playerIn, tooltip, advanced);
-    }
-
-    public IItemHandler getStackHandlerFromPointer(ItemStack stack, World world,
-        EntityPlayer player) {
-        if (pointerAction instanceof PointerActionInventory) {
-            return ((PointerActionInventory) pointerAction).getStackHandler(stack, world, player);
-        }
-        return null;
     }
 }

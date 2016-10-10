@@ -7,31 +7,30 @@ import net.minecraft.world.World;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import notjoe.pointersmod.PointersMod;
-import notjoe.pointersmod.api.BlockInWorld;
+import notjoe.pointersmod.api.BlockDetail;
 import notjoe.pointersmod.api.PointerAction;
 import notjoe.pointersmod.api.helpers.NbtHelper;
 import notjoe.pointersmod.common.Config;
+import notjoe.pointersmod.common.item.ItemPointerBase;
+import notjoe.pointersmod.common.item.ModItems;
 
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * A pointer action that transfers items.
+ */
 public class PointerActionInventory extends PointerAction {
-    private boolean ignoreFacing;
-
-    public PointerActionInventory(boolean ignoreFacing) {
-        this.ignoreFacing = ignoreFacing;
-    }
-
     @Override
-    public boolean setPointerTarget(ItemStack stack, BlockInWorld blockInWorld, World world) {
+    public boolean setPointerTarget(ItemStack stack, BlockDetail blockDetail, World world) {
         NbtHelper.initNbtTagForStack(stack);
-        if (blockInWorld.isTileEntity(world)) {
-            if (blockInWorld.getTileEntity(world)
+        if (blockDetail.isTileEntity(world)) {
+            if (blockDetail.getTileEntity(world)
                 .hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY,
-                    ignoreFacing ? null : blockInWorld.facing)) {
-                blockInWorld.serializeNbt(stack.getTagCompound());
+                    blockDetail.facing)) {
+                blockDetail.serializeNbt(stack.getTagCompound());
                 String localizedTargetName =
-                    world.getBlockState(blockInWorld.pos).getBlock().getLocalizedName();
+                    world.getBlockState(blockDetail.pos).getBlock().getLocalizedName();
                 stack.getTagCompound().setString("target_name", localizedTargetName);
                 return true;
             }
@@ -41,10 +40,10 @@ public class PointerActionInventory extends PointerAction {
 
     @Override public boolean pointerActivated(ItemStack stack, World world, EntityPlayer player) {
         if (hasTarget(stack) && isTargetAccessible(stack, world, player) && !world.isRemote) {
-            BlockInWorld blockInWorld = getPointerTarget(stack);
-            IItemHandler handler = blockInWorld.getTileEntity(world)
+            BlockDetail blockDetail = getPointerTarget(stack);
+            IItemHandler handler = blockDetail.getTileEntity(world)
                 .getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY,
-                    ignoreFacing ? null : blockInWorld.facing);
+                    blockDetail.facing);
             if (handler != null) {
                 player.openGui(PointersMod.INSTANCE, 0, world, 0, 0, 0);
             }
@@ -98,7 +97,7 @@ public class PointerActionInventory extends PointerAction {
     }
 
     @Override public boolean isTargetAccessible(ItemStack stack, World world, EntityPlayer player) {
-        BlockInWorld target = new BlockInWorld(stack.getTagCompound());
+        BlockDetail target = new BlockDetail(stack.getTagCompound());
         return super.isTargetAccessible(stack, world, player) &&
             target.isTileEntity(world) && target.getTileEntity(world).hasCapability(
             CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, target.facing);
@@ -107,10 +106,19 @@ public class PointerActionInventory extends PointerAction {
 
     public IItemHandler getStackHandler(ItemStack stack, World world, EntityPlayer player) {
         if (hasTarget(stack) && isTargetAccessible(stack, world, player)) {
-            BlockInWorld blockInWorld = getPointerTarget(stack);
-            return blockInWorld.getTileEntity(world)
+            BlockDetail blockDetail = getPointerTarget(stack);
+            return blockDetail.getTileEntity(world)
                 .getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY,
-                    ignoreFacing ? null : blockInWorld.facing);
+                    blockDetail.facing);
+        }
+
+        return null;
+    }
+
+    public static IItemHandler getStackHandlerFromInvPointer(ItemStack stack, World world, EntityPlayer player) {
+        if(stack.getItem() == ModItems.pointer_inv) {
+            // jesus christ
+            return ((PointerActionInventory)(((ItemPointerBase) ModItems.pointer_inv).pointerAction)).getStackHandler(stack, world, player);
         }
 
         return null;

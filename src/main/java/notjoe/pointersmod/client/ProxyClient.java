@@ -8,6 +8,9 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import notjoe.pointersmod.api.RegisterableModel;
 import notjoe.pointersmod.common.ProxyCommon;
 
+/**
+ * Client-side proxy code.
+ */
 public class ProxyClient extends ProxyCommon {
     @Override public void preInit(FMLPreInitializationEvent event) {
         super.preInit(event);

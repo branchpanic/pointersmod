@@ -7,21 +7,21 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import notjoe.pointersmod.PointersMod;
 import notjoe.pointersmod.common.Config;
 
+/**
+ * Events within the mod.
+ */
 public class ModEvents {
+    /**
+     * Notifies a player through chat if an update is available.
+     * @param event Event data.
+     */
     @SubscribeEvent public void onPlayerJoin(EntityJoinWorldEvent event) {
         if (Config.enableUpdateCheck && event.getEntity() instanceof EntityPlayer && event
             .getWorld().isRemote && !PointersMod.updateStatus.isLatestVersion) {
             EntityPlayer e = (EntityPlayer) event.getEntity();
-            if(PointersMod.updateStatus.getLatestRelease().isEmpty()) {
-                sendMessage(e, "No " + PointersMod.updateStatus.releaseChannel.toUpperCase() + " version of Pointers exists yet!");
-                sendMessage(e, "Latest ALPHA: " + (PointersMod.updateStatus.latestAlpha.isEmpty()? "None": PointersMod.updateStatus.latestAlpha));
-                sendMessage(e, "Latest BETA: " + (PointersMod.updateStatus.latestBeta.isEmpty()? "None": PointersMod.updateStatus.latestBeta));
-                sendMessage(e, "Latest RELEASE: " + (PointersMod.updateStatus.latestRelease.isEmpty()? "None": PointersMod.updateStatus.latestRelease));
-            } else {
-                sendMessage(e, "A new " + PointersMod.updateStatus.releaseChannel.toUpperCase() + " version of Pointers is available! " + PointersMod.updateStatus.getLatestRelease());
-            }
-
-            sendMessage(e, "If you don't want to see this message, edit your configuration file to disable update checking.");
+            PointersMod.updateStatus.getUpdateMessages().forEach(msg -> sendMessage(e, msg));
+            sendMessage(e, "If you don't want to see this message, edit " +
+                    "your configuration file to disable update checking.");
         }
     }
 

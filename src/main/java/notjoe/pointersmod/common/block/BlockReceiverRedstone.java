@@ -16,6 +16,9 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
+/**
+ * A block whose redstone output is toggleable with a Redstone Pointer.
+ */
 public class BlockReceiverRedstone extends ModBlock {
     public static final AxisAlignedBB BLOCK_AABB =
         new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.125D, 1.0D);

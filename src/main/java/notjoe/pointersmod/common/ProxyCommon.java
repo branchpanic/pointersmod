@@ -17,13 +17,12 @@ import java.io.File;
 
 public class ProxyCommon {
     public void preInit(FMLPreInitializationEvent event) {
+        PointersMod.logger = event.getModLog();
         PointersMod.config = new Configuration(
             new File(event.getModConfigurationDirectory().getPath(), "pointersmod.cfg"));
         Config.initConfigValues();
-
         ModItems.preInit();
         ModBlocks.preInit();
-
         ModCraftingRecipes.addRecipes();
     }
 
@@ -36,18 +35,7 @@ public class ProxyCommon {
         if (Config.enableUpdateCheck) {
             UpdateChecker ch = new UpdateChecker(Config.updateChannel);
             PointersMod.updateStatus = ch.checkForUpdates();
-            if(PointersMod.updateStatus.isLatestVersion) {
-                PointersMod.logger.info("You're running the latest " + PointersMod.updateStatus.releaseChannel.toUpperCase() + " version of Pointers!");
-            } else {
-                if(PointersMod.updateStatus.getLatestRelease().isEmpty()) {
-                    PointersMod.logger.warn("No Pointers version of type " + PointersMod.updateStatus.releaseChannel.toUpperCase() + " was found!");
-                    PointersMod.logger.warn("Latest ALPHA:\t" + PointersMod.updateStatus.latestAlpha);
-                    PointersMod.logger.warn("Latest BETA:\t" + PointersMod.updateStatus.latestBeta);
-                    PointersMod.logger.warn("Latest RELEASE:\t" + PointersMod.updateStatus.latestRelease);
-                } else {
-                    PointersMod.logger.info("*** A new " + PointersMod.updateStatus.releaseChannel.toUpperCase() + " version of Pointers is available! " + PointersMod.updateStatus.getLatestRelease() + " ***");
-                }
-            }
+            PointersMod.updateStatus.getUpdateMessages().forEach(msg -> PointersMod.logger.info(msg));
         } else {
             PointersMod.logger.info("Update checking is disabled.");
         }

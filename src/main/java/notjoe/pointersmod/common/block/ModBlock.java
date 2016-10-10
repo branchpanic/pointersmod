@@ -10,6 +10,11 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import notjoe.pointersmod.PointersMod;
 import notjoe.pointersmod.api.RegisterableModel;
 
+/**
+ * An extension of Minecraft's Block to serve as a foundation for blocks within this mod.
+ * Does what ModItem does, but registers an ItemBlock as well.
+ * @see notjoe.pointersmod.common.item.ModItem
+ */
 public class ModBlock extends Block implements RegisterableModel {
     public ModBlock(String unlocalizedName, Material material) {
         super(material);

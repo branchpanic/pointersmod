@@ -60,7 +60,6 @@ import org.apache.logging.log4j.Logger;
      * @see ProxyCommon
      */
     @Mod.EventHandler public static void onPreInit(FMLPreInitializationEvent event) {
-        logger = event.getModLog();
         proxy.preInit(event);
     }
 
