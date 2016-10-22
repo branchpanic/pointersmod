@@ -6,7 +6,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-
 import notjoe.pointersmod.api.BlockDetail;
 import notjoe.pointersmod.api.PointerAction;
 import notjoe.pointersmod.common.Config;

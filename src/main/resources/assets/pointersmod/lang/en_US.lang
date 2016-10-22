@@ -17,6 +17,8 @@ pointers.targetname=Target block: %s.
 pointers.availableslots=%d slots available on face %s.
 pointers.power=%d T/%d T
 pointers.powerperuse=%d T/use
+pointers.toofar.1=Too far away from target!
+pointers.toofar.2=Target chunk must be loaded in order to access it.
 
 pointers.update=[Pointers] An update of type %s is available: %s!
 pointers.update.uptodate=[Pointers] Pointers is up to date!

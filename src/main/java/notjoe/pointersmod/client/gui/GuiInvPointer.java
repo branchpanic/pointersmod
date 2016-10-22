@@ -1,8 +1,10 @@
 package notjoe.pointersmod.client.gui;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.inventory.Slot;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 import notjoe.pointersmod.PointersMod;
 import notjoe.pointersmod.common.container.ContainerInvPointer;
 

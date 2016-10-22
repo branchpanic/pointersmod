@@ -6,10 +6,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.model.ModelLoader;
 
-import java.util.List;
-
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import java.util.List;
 
 /**
  * A crafting component item. Has no functionality and makes use of sub-items.
@@ -22,8 +20,7 @@ public class ItemComponent extends ModItem {
         setHasSubtypes(true);
     }
 
-    @Override @Nonnull
-    public String getUnlocalizedName(ItemStack stack) {
+    @Override @Nonnull public String getUnlocalizedName(ItemStack stack) {
         return super.getUnlocalizedName(stack) + "." + metaToString(stack.getItemDamage());
     }
 

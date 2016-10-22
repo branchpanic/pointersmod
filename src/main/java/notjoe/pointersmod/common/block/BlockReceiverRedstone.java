@@ -40,6 +40,12 @@ public class BlockReceiverRedstone extends ModBlock {
         return blockState.getValue(BlockReceiverRedstone.POWERED) ? 15 : 0;
     }
 
+    @Override
+    public int getStrongPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos,
+        EnumFacing side) {
+        return side == EnumFacing.NORTH ? getWeakPower(blockState, blockAccess, pos, side) : 0;
+    }
+
     @Override protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, BlockReceiverRedstone.POWERED);
     }

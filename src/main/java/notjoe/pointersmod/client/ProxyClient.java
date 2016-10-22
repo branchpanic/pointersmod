@@ -5,8 +5,8 @@ import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import notjoe.pointersmod.api.RegisterableModel;
 import notjoe.pointersmod.common.ProxyCommon;
+import notjoe.pointersmod.common.RegisterableModel;
 
 /**
  * Client-side proxy code.

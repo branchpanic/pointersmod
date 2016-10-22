@@ -18,7 +18,7 @@ public class ModItems {
 
     public static void preInit() {
         if (Config.enablePointerInventory)
-            pointer_inv = new ItemPointerBase("pointer_inv", new PointerActionInventory(false));
+            pointer_inv = new ItemPointerBase("pointer_inv", new PointerActionInventory());
         if (Config.enablePointerWorld)
             pointer_world = new ItemPointerBase("pointer_world", new PointerActionWorld());
         if (Config.enablePointerRedstone)

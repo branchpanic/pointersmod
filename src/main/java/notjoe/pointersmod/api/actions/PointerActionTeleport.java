@@ -4,7 +4,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
-
 import notjoe.pointersmod.api.BlockDetail;
 import notjoe.pointersmod.api.PointerAction;
 import notjoe.pointersmod.api.helpers.NbtHelper;
@@ -17,6 +16,7 @@ import java.util.Random;
  */
 public class PointerActionTeleport extends PointerAction {
     private static Random random = new Random();
+
     @Override
     public boolean setPointerTarget(ItemStack stack, BlockDetail blockDetail, World world) {
         NbtHelper.initNbtTagForStack(stack);
@@ -32,14 +32,10 @@ public class PointerActionTeleport extends PointerAction {
             BlockDetail blockDetail = new BlockDetail(stack.getTagCompound());
             player.setPosition(blockDetail.pos.getX() + 0.5, blockDetail.pos.getY() + 0.5,
                 blockDetail.pos.getZ() + 0.5);
-            for(int i = 0; i < 20; i++) {
-                world.spawnParticle(EnumParticleTypes.REDSTONE,
-                    player.posX + random.nextGaussian(),
-                    player.posY,
-                    player.posZ + random.nextGaussian(),
-                    random.nextGaussian(),
-                    random.nextGaussian(),
-                    random.nextGaussian());
+            for (int i = 0; i < 20; i++) {
+                world.spawnParticle(EnumParticleTypes.REDSTONE, player.posX + random.nextGaussian(),
+                    player.posY, player.posZ + random.nextGaussian(), random.nextGaussian(),
+                    random.nextGaussian(), random.nextGaussian());
             }
             return true;
         }

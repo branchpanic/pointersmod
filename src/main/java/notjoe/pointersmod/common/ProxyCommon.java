@@ -35,7 +35,8 @@ public class ProxyCommon {
         if (Config.enableUpdateCheck) {
             UpdateChecker ch = new UpdateChecker(Config.updateChannel);
             PointersMod.updateStatus = ch.checkForUpdates();
-            PointersMod.updateStatus.getUpdateMessages().forEach(msg -> PointersMod.logger.info(msg));
+            PointersMod.updateStatus.getUpdateMessages()
+                .forEach(msg -> PointersMod.logger.info(msg));
         } else {
             PointersMod.logger.info("Update checking is disabled.");
         }

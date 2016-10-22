@@ -1,26 +1,22 @@
 package notjoe.pointersmod.common.item;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import notjoe.pointersmod.PointersMod;
-import notjoe.pointersmod.api.RegisterableModel;
-
-import java.util.List;
+import notjoe.pointersmod.common.RegisterableModel;
 
 /**
- *  An extension of Minecraft's Item to use as a foundation for items in this mod.
+ * An extension of Minecraft's Item to use as a foundation for items in this mod.
  */
 public class ModItem extends Item implements RegisterableModel {
     /**
      * Constructor for a ModItem. Sets an unlocalized name, registry name, and creative tab.
      * In addition, registers the item within the GameRegistry.
+     *
      * @param internalName The name of the item used in the unlocalized and registry name.
      */
     ModItem(String internalName) {

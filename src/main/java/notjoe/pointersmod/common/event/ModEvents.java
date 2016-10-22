@@ -13,6 +13,7 @@ import notjoe.pointersmod.common.Config;
 public class ModEvents {
     /**
      * Notifies a player through chat if an update is available.
+     *
      * @param event Event data.
      */
     @SubscribeEvent public void onPlayerJoin(EntityJoinWorldEvent event) {
@@ -20,8 +21,8 @@ public class ModEvents {
             .getWorld().isRemote && !PointersMod.updateStatus.isLatestVersion) {
             EntityPlayer e = (EntityPlayer) event.getEntity();
             PointersMod.updateStatus.getUpdateMessages().forEach(msg -> sendMessage(e, msg));
-            sendMessage(e, "If you don't want to see this message, edit " +
-                    "your configuration file to disable update checking.");
+            sendMessage(e, "If you don't want to see this message, edit "
+                + "your configuration file to disable update checking.");
         }
     }
 

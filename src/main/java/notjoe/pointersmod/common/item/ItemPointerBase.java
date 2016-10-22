@@ -6,6 +6,7 @@ import net.darkhax.tesla.api.implementation.BaseTeslaContainer;
 import net.darkhax.tesla.api.implementation.BaseTeslaContainerProvider;
 import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -14,9 +15,11 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
-
 import notjoe.pointersmod.api.BlockDetail;
 import notjoe.pointersmod.api.PointerAction;
 
@@ -35,6 +38,18 @@ public class ItemPointerBase extends ModItem {
         this.pointerAction = pointerAction;
         setMaxStackSize(1);
         setMaxDamage((int) pointerAction.getTeslaCapacity());
+    }
+
+    @Override public int getMaxItemUseDuration(ItemStack stack) {
+        return 1;
+    }
+
+    @Nullable @Override public ItemStack onItemUseFinish(ItemStack stack, World worldIn,
+        EntityLivingBase entityLiving) {
+        if(entityLiving instanceof EntityPlayer) {
+            ((EntityPlayer) entityLiving).getCooldownTracker().setCooldown(this, 2);
+        }
+        return super.onItemUseFinish(stack, worldIn, entityLiving);
     }
 
     @Nullable private ITeslaHolder getTeslaHolder(ItemStack stack) {
@@ -103,7 +118,8 @@ public class ItemPointerBase extends ModItem {
             EnumActionResult.FAIL;
     }
 
-    @Override @Nonnull public ActionResult<ItemStack> onItemRightClick(@Nonnull ItemStack stack, World worldIn,
+    @Override @Nonnull
+    public ActionResult<ItemStack> onItemRightClick(@Nonnull ItemStack stack, World worldIn,
         EntityPlayer playerIn, EnumHand hand) {
         if (hand == EnumHand.MAIN_HAND)
             return executePointerActions(stack, playerIn, worldIn, null, hand, null) ?

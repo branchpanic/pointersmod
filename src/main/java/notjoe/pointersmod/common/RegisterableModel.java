@@ -1,4 +1,4 @@
-package notjoe.pointersmod.api;
+package notjoe.pointersmod.common;
 
 /**
  * Represents a game object (block, item) which has a registerable model that can be registered

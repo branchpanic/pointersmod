@@ -2,7 +2,10 @@ package notjoe.pointersmod.api;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeChunkManager;
+import notjoe.pointersmod.PointersMod;
 import notjoe.pointersmod.api.helpers.NbtHelper;
 import notjoe.pointersmod.common.Config;
 
@@ -15,13 +18,12 @@ abstract public class PointerAction {
     /**
      * Sets the target of this pointer.
      *
-     * @param stack        The pointer to bind.
+     * @param stack       The pointer to bind.
      * @param blockDetail Information about the block to bind to.
-     * @param world        The world the block was bound in.
+     * @param world       The world the block was bound in.
      * @return Whether or not the pointer was bound.
      */
-    abstract public boolean setPointerTarget(ItemStack stack, BlockDetail blockDetail,
-        World world);
+    abstract public boolean setPointerTarget(ItemStack stack, BlockDetail blockDetail, World world);
 
     /**
      * Called when this pointer is activated by right clicking.
@@ -88,6 +90,12 @@ abstract public class PointerAction {
      */
     public boolean isTargetAccessible(ItemStack stack, World world, EntityPlayer player) {
         BlockDetail target = getPointerTarget(stack);
+        if (!world.isBlockLoaded(target.pos)) {
+            ForgeChunkManager.forceChunk(ForgeChunkManager
+                    .requestTicket(PointersMod.INSTANCE, world, ForgeChunkManager.Type.NORMAL),
+                new ChunkPos(world.getChunkFromBlockCoords(target.pos).xPosition,
+                    world.getChunkFromBlockCoords(target.pos).zPosition));
+        }
         return world.isBlockLoaded(target.pos) &&
             player.canPlayerEdit(target.pos, target.facing, stack) &&
             player.capabilities.allowEdit &&

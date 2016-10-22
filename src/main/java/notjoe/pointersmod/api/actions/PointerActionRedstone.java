@@ -4,7 +4,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
 import notjoe.pointersmod.api.BlockDetail;
 import notjoe.pointersmod.api.PointerAction;
 import notjoe.pointersmod.api.helpers.NbtHelper;
@@ -14,6 +13,7 @@ import notjoe.pointersmod.common.block.ModBlocks;
 
 /**
  * A pointer action that toggles the redstone output of a Redstone Receiver.
+ *
  * @see BlockReceiverRedstone
  */
 public class PointerActionRedstone extends PointerAction {
