@@ -1,4 +1,7 @@
 # ![Pointers](pointers.png)
+
+## At the moment, I am no longer working on this project.
+
 *Pointers is a mod about things that point to other things.*
 While it is still in early development, it has the following features (subject to change without this list updating):
 - Inventory Pointer (WIP)
